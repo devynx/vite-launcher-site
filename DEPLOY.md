@@ -2,58 +2,63 @@
 
 The site is deployed as a static site with GitHub Pages from a public repository.
 
-- **Public URL:** https://praisethefacts.github.io/vite-launcher-site/
-- **Repository:** https://github.com/praisethefacts/vite-launcher-site (public, branch `main`)
-- **Live site commit:** `2312f8010f2888982bc68b60ae9b41e2e3f292ad` — "Add Boost off/on comparison and local accounts & friends sections"
-- **Initial commit:** `72a34ffb9ecee9a3ae1de5e1fd61777cae8cdb64` — "Vite marketing site: static single-page site with real app captures and Windows installer"
+- **Public URL:** https://devynx.github.io/vite-launcher-site/
+- **Repository:** https://github.com/devynx/vite-launcher-site (public, branch `main`)
 - **Deployed:** 2026-10-19
 - **Pages configuration:** source `main` / repository root, build type `legacy`, HTTPS enforced
-- **Build status:** GitHub Pages build for commit `2312f80` completed with status `built`
+- **Account service:** `https://iljiovhwkrtfuvmhcfhn.supabase.co/functions/v1/vite-auth` (Supabase `vite-launcher`, `eu-north-1`)
 
 ## HTTP checks
 
-Performed on 2026-10-19 against the public URL after the Pages build finished.
-
-| Path | Status | Content-Length | Content-Type |
-| --- | --- | --- | --- |
-| `/` | 200 | 46,229 | `text/html; charset=utf-8` |
-| `styles.css` | 200 | 49,324 | `text/css; charset=utf-8` |
-| `main.js` | 200 | 3,289 | `application/javascript; charset=utf-8` |
-| `assets/launcher-library.png` | 200 | 401,799 | `image/png` |
-| `assets/overlay-fullscreen.png` | 200 | 596,509 | `image/png` |
-| `assets/vite-logo.png` | 200 | 8,187 | `image/png` |
-| `assets/fonts/anton-latin.woff2` | 200 | 18,612 | `font/woff2` |
-| `downloads/Vite_0.1.0_x64-setup.exe` | 200 | 4,421,048 | `application/octet-stream` |
-| `DEPLOY.md` | 200 | — | `text/plain; charset=utf-8` |
+| Path | Status | Content-Type |
+| --- | --- | --- |
+| `/` | 200 | `text/html; charset=utf-8` |
+| `styles.css` | 200 | `text/css; charset=utf-8` |
+| `main.js` | 200 | `application/javascript; charset=utf-8` |
+| `assets/launcher-library.png` | 200 | `image/png` |
+| `assets/overlay-fullscreen.png` | 200 | `image/png` |
+| `assets/vite-logo.png` | 200 | `image/png` |
+| `assets/fonts/anton-latin.woff2` | 200 | `font/woff2` |
+| `downloads/Vite_0.1.0_x64-setup.exe` | 200 | `application/octet-stream` |
+| `DEPLOY.md` | 200 | `text/plain; charset=utf-8` |
 
 The root document title is `Vite — Local-first game launcher for Windows`.
 
 ## Installer integrity
 
-The installer downloaded from the public URL is **4,421,048 bytes** with SHA-256:
+The installer downloaded from the public URL is **4,477,823 bytes** with SHA-256:
 
 ```text
-B007ADDF2022A23FC76BFF3803D3217F7E1C90A0F9970DCAB5771D45DA8FA933
+D41D05310FC63AEF32341AC92A34EDB69B8F9BB36461EB98AB403FCA0FD20D9D
 ```
 
 This matches the SHA-256 printed on the site's download card and the file served from `site/downloads/`.
 
+## Account flow
+
+The site shares the desktop app's hosted account service:
+
+- Create account: username + display name + password; no email.
+- Sign in / sign out and add/remove friends by 8-character code.
+- The same account works in the desktop app and on the website.
+- The account service stores username, display name, a PBKDF2-SHA256 password hash, friend code, and mutual friend ids. The library is never uploaded.
+
 ## Browser check
 
-Playwright (Chromium) against the public URL at 1440×1000 and 390×844:
+Playwright (Chromium) against the local site and the public URL at 1440×1000 and 390×844:
 
 - HTTP 200 and the expected `<title>`.
 - Local Anton and Manrope woff2 fonts load (no fallback to Impact/system sans).
-- All 8 images load; zero failed requests; zero console errors.
-- No horizontal overflow at either width; page height 12,004 px desktop and 13,728 px mobile.
+- All images load; zero failed requests; zero console errors.
+- No horizontal overflow at either width.
 - Primary nav contains Features, Overlay, Stats, Accounts, Download.
-- Both new sections are present and rendered: `#boost-lab` ("Boost off, boost on.") and `#accounts` ("Accounts, without the cloud.").
-- The required boost disclaimer and the explicit local-only profiles note are present in the DOM text.
+- Account section renders signed-out and signed-in states; signup/login and friend add work against the live account service.
+- The boost disclaimer, accounts section, and download card are present in the DOM text.
 
 ## Page content notes
 
-- **Accounts & friends** are described as local-first: a local profile stored in `vite.db`, manual friend codes, no email, no account server, and no online sync or cloud service.
-- **Game Boost off vs on** uses illustrative frame-time bars and illustrative 58/44 (off) and 63/55 (on) FPS previews. The page states it is not a game benchmark, that results vary by game/GPU/CPU, and that Game Boost cannot guarantee FPS or network latency.
+- **Accounts & friends** are described as hosted online accounts; the same credentials work in the app and website, and no library data is uploaded.
+- **Game Boost off vs on** uses illustrative frame-time bars and illustrative 50/38 (off) and 60/56 (on) FPS previews. The page states it is not a game benchmark, that results vary by game/GPU/CPU, and that Game Boost cannot guarantee FPS or network latency.
 - **Player counts** are sampled locally every five minutes through the official Steam API; there is no SteamCharts or other third-party history merge.
 - **Overlay** is a full-screen capture; the page notes it is an always-on-top window that covers desktop, windowed, and borderless games, while exclusive fullscreen may draw over it.
 - **Installer** is unsigned; Windows SmartScreen may warn on first run. It is not auto-updating.
