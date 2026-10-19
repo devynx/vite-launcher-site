@@ -116,6 +116,7 @@
   var name = document.getElementById("account-name");
   var handle = document.getElementById("account-handle");
   var code = document.getElementById("account-code");
+  var profileLink = document.getElementById("account-profile-link");
   var signout = document.getElementById("account-signout");
   var friendForm = document.getElementById("friend-add-form");
   var friendInput = document.getElementById("friend-code-input");
@@ -182,8 +183,9 @@
 
     var body = document.createElement("span");
     body.className = "friends-list__body";
-    var rowName = document.createElement("span");
+    var rowName = document.createElement("a");
     rowName.className = "friends-list__name";
+    rowName.href = "profile.html?u=" + encodeURIComponent(friend.username);
     rowName.textContent = friend.display_name || friend.username;
     var rowHandle = document.createElement("span");
     rowHandle.className = "friends-list__code";
@@ -234,6 +236,7 @@
     if (name) name.textContent = account.display_name || account.username;
     if (handle) handle.textContent = "@" + account.username;
     if (code) code.textContent = account.friend_code;
+    if (profileLink) profileLink.href = "profile.html?u=" + encodeURIComponent(account.username);
     renderFriends(friends || []);
     if (friendInput) friendInput.disabled = false;
     if (friendButton) friendButton.disabled = false;

@@ -1914,7 +1914,8 @@ hr { border: 0; }
   font-size: 15px;
 }
 .friends-list__body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.friends-list__name { color: var(--paper); font-size: 13px; font-weight: 600; }
+.friends-list__name { color: var(--paper); font-size: 13px; font-weight: 600; text-decoration: none; }
+.friends-list__name:hover { color: var(--lime); }
 .friends-list__code {
   overflow: hidden;
   color: var(--muted-2);
@@ -2023,6 +2024,26 @@ hr { border: 0; }
   cursor: pointer;
 }
 .account-signout:hover { border-color: var(--paper); color: var(--paper); }
+.account-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+.account-link {
+  flex: 1;
+  min-width: 120px;
+  padding: 9px 10px;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+.account-link:hover { border-color: var(--lime); color: var(--lime); }
 .friends-add__field {
   appearance: none;
   border-radius: 0;

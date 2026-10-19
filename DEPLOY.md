@@ -7,6 +7,7 @@ The site is deployed as a static site with GitHub Pages from a public repository
 - **Deployed:** 2026-10-19
 - **Pages configuration:** source `main` / repository root, build type `legacy`, HTTPS enforced
 - **Account service:** `https://iljiovhwkrtfuvmhcfhn.supabase.co/functions/v1/vite-auth` (Supabase `vite-launcher`, `eu-north-1`)
+- **Profile pages:** `profile.html?u=<username>` (public when the player allows it) and `settings.html` (requires sign-in)
 
 ## HTTP checks
 
@@ -26,10 +27,10 @@ The root document title is `Vite — Local-first game launcher for Windows`.
 
 ## Installer integrity
 
-The installer downloaded from the public URL is **4,465,492 bytes** with SHA-256:
+The installer downloaded from the public URL is **4,475,007 bytes** with SHA-256:
 
 ```text
-2182023C441759D98F61552FA30B830C96633C91563E4731467192695BD561B0
+D169A6AD0FD624FA117EE98CC8BD895923D1DFDC25ECBD07184643814721E3F1
 ```
 
 This matches the SHA-256 printed on the site's download card and the file served from `site/downloads/`.

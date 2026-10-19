@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0a0b0a">
+  <title>Account settings — Vite</title>
+  <meta name="description" content="Manage your Vite display name, bio, profile visibility, and sign-in session.">
+  <link rel="icon" href="assets/vite-logo.png" type="image/png">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="account-pages.css">
+</head>
+<body class="page-account">
+  <header class="nav">
+    <div class="nav__inner">
+      <a class="brand" href="index.html">
+        <img src="assets/vite-logo.png" alt="" width="28" height="28">
+        <span>VITE</span>
+      </a>
+      <nav class="nav__links" aria-label="Primary">
+        <a href="index.html#features">Features</a>
+        <a href="index.html#overlay">Overlay</a>
+        <a href="index.html#stats">Stats</a>
+        <a href="index.html#accounts">Accounts</a>
+        <a href="index.html#download">Download</a>
+      </nav>
+      <a class="btn-account" href="index.html">Open Vite</a>
+    </div>
+  </header>
+
+  <main class="account-page">
+    <div class="account-page__inner">
+      <div class="account-head">
+        <span class="account-eyebrow">Account settings</span>
+        <h1 class="account-title">Your account.</h1>
+        <p class="account-lede">One Vite account for the launcher and this site. Your library, playtime, and installed games never leave your PC.</p>
+      </div>
+
+      <div class="account-grid">
+        <article class="account-panel" aria-labelledby="settings-panel-title">
+          <header class="account-panel__head">
+            <h2 class="account-panel__title" id="settings-panel-title">Profile settings</h2>
+            <span class="account-badge" id="settings-badge">Loading</span>
+          </header>
+          <div class="account-panel__body" id="settings-body">
+            <p class="account-empty" role="status">Loading account…</p>
+          </div>
+        </article>
+
+        <aside class="account-panel" aria-labelledby="settings-side-title">
+          <header class="account-panel__head">
+            <h2 class="account-panel__title" id="settings-side-title">Details</h2>
+            <span class="account-badge is-live">Online</span>
+          </header>
+          <div class="account-panel__body">
+            <div class="account-meta" id="settings-meta"></div>
+            <div class="account-actions" id="settings-links"></div>
+            <p class="account-note">Changing your display name or bio is visible on your public profile and in friends' lists. Your friend code is private.</p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <footer class="account-footer">
+    <span>Vite · 0.1.0</span>
+    <span><a href="index.html">Home</a> · <a href="profile.html">Profile</a> · <a href="index.html#download">Download</a></span>
+  </footer>
+
+  <script src="account-api.js" defer></script>
+  <script src="settings.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0a0b0a">
+  <title>Profile — Vite</title>
+  <meta name="description" content="A public Vite player profile: display name, bio, friends, and the game they are playing.">
+  <link rel="icon" href="assets/vite-logo.png" type="image/png">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="account-pages.css">
+</head>
+<body class="page-account">
+  <header class="nav">
+    <div class="nav__inner">
+      <a class="brand" href="index.html">
+        <img src="assets/vite-logo.png" alt="" width="28" height="28">
+        <span>VITE</span>
+      </a>
+      <nav class="nav__links" aria-label="Primary">
+        <a href="index.html#features">Features</a>
+        <a href="index.html#overlay">Overlay</a>
+        <a href="index.html#stats">Stats</a>
+        <a class="is-active" href="index.html#accounts">Accounts</a>
+        <a href="index.html#download">Download</a>
+      </nav>
+      <a class="btn-account" href="index.html">Open Vite</a>
+    </div>
+  </header>
+
+  <main class="account-page">
+    <div class="account-page__inner">
+      <div class="account-head">
+        <span class="account-eyebrow">Public player profile</span>
+        <h1 class="account-title" id="profile-title">Player profile.</h1>
+        <p class="account-lede">Profiles are optional and public only when the player allows it. Friend codes stay private.</p>
+      </div>
+
+      <div class="account-grid">
+        <article class="account-panel" aria-labelledby="profile-panel-title">
+          <header class="account-panel__head">
+            <h2 class="account-panel__title" id="profile-panel-title">Profile</h2>
+            <span class="account-badge" id="profile-badge">Loading</span>
+          </header>
+          <div class="account-panel__body" id="profile-body">
+            <p class="account-empty" role="status">Loading profile…</p>
+          </div>
+        </article>
+
+        <aside class="account-panel" aria-labelledby="profile-side-title">
+          <header class="account-panel__head">
+            <h2 class="account-panel__title" id="profile-side-title">Account service</h2>
+            <span class="account-badge is-live">Online</span>
+          </header>
+          <div class="account-panel__body">
+            <p class="account-note">A Vite account works in the desktop launcher and on this site. No email address, no library upload, no public browsing.</p>
+            <div class="account-actions">
+              <a class="btn-account" href="index.html#accounts">Sign in</a>
+              <a class="btn-account" href="settings.html">Account settings</a>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <footer class="account-footer">
+    <span>Vite · 0.1.0</span>
+    <span><a href="index.html">Home</a> · <a href="settings.html">Settings</a> · <a href="index.html#download">Download</a></span>
+  </footer>
+
+  <script src="account-api.js" defer></script>
+  <script src="profile.js" defer></script>
+</body>
+</html>
