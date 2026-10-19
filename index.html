@@ -1,0 +1,584 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vite — Local-first game launcher for Windows</title>
+<meta name="description" content="Vite is a local-first Windows game launcher for Steam, Epic, and GOG. One fast library, a Steam-like overlay, and a reversible Game Boost. No accounts, no store, no telemetry.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0a0b0a">
+<meta property="og:title" content="Vite — everything, installed.">
+<meta property="og:description" content="Steam, Epic, and GOG in one fast local library. No accounts. No store. No feed.">
+<meta property="og:type" content="website">
+<link rel="icon" href="assets/vite-logo.png" type="image/png">
+<link rel="preload" href="assets/fonts/anton-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="styles.css">
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- Icon sprite: one definition, reused everywhere below. -->
+<svg class="sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="i-arrow-down" viewBox="0 0 24 24"><path d="M12 4v16"/><path d="m5 13 7 7 7-7"/></symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M4 12h16"/><path d="m13 5 7 7-7 7"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m20 6-11 11-5-5"/></symbol>
+  <symbol id="i-command" viewBox="0 0 24 24"><path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3"/></symbol>
+  <symbol id="i-inbox" viewBox="0 0 24 24"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11Z"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></symbol>
+  <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 21v-7"/><path d="M4 10V3"/><path d="M12 21v-9"/><path d="M12 8V3"/><path d="M20 21v-5"/><path d="M20 12V3"/><path d="M2 14h4"/><path d="M10 8h4"/><path d="M18 16h4"/></symbol>
+  <symbol id="i-pulse" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></symbol>
+  <symbol id="i-database" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></symbol>
+  <symbol id="i-wifi-off" viewBox="0 0 24 24"><path d="M12 20h.01"/><path d="M8.5 16.429a5 5 0 0 1 7 0"/><path d="M5 12.859a10 10 0 0 1 5.17-2.69"/><path d="M19 12.859a10 10 0 0 0-2.007-1.523"/><path d="M2 8.82a15 15 0 0 1 4.177-2.643"/><path d="M22 8.82a15 15 0 0 0-11.288-3.764"/><path d="m2 2 20 20"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M12 20h.01"/><path d="M8.5 16.429a5 5 0 0 1 7 0"/><path d="M5 12.859a10 10 0 0 1 14 0"/><path d="M2 8.82a15 15 0 0 1 20 0"/></symbol>
+  <symbol id="i-power" viewBox="0 0 24 24"><path d="M12 2v10"/><path d="M18.4 6.6a9 9 0 1 1-12.77.04"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z"/></symbol>
+  <symbol id="i-timer" viewBox="0 0 24 24"><path d="M10 2h4"/><path d="M12 14v-4"/><circle cx="12" cy="14" r="8"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></symbol>
+</svg>
+
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ───────────────────────────── NAV ───────────────────────────── -->
+<header class="nav" data-nav>
+  <div class="nav__inner">
+    <a class="brand" href="#top" aria-label="Vite — back to top">
+      <img class="brand__mark" src="assets/vite-logo.png" alt="" width="32" height="32">
+      <span class="brand__word">VITE</span>
+      <span class="brand__ver">0.1.0</span>
+    </a>
+
+    <nav class="nav__links" aria-label="Primary">
+      <a href="#features" data-navlink>Features</a>
+      <a href="#overlay" data-navlink>Overlay</a>
+      <a href="#stats" data-navlink>Stats</a>
+      <a href="#download" data-navlink>Download</a>
+    </nav>
+
+    <div class="nav__actions">
+      <a class="btn btn--lime btn--sm" href="downloads/Vite_0.1.0_x64-setup.exe" download>
+        <span>Download</span>
+        <svg class="icon" width="16" height="16" aria-hidden="true" focusable="false"><use href="#i-arrow-down"></use></svg>
+      </a>
+      <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-nav-toggle>
+        <span class="nav__toggle-box" aria-hidden="true"><i></i><i></i></span>
+        <span class="sr-only">Menu</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobile-menu" hidden>
+    <nav class="mobile-menu__nav" aria-label="Mobile">
+      <a href="#features">Features</a>
+      <a href="#overlay">Overlay</a>
+      <a href="#stats">Stats</a>
+      <a href="#download">Download</a>
+    </nav>
+    <a class="btn btn--lime btn--block" href="downloads/Vite_0.1.0_x64-setup.exe" download>
+      <span>Download for Windows</span>
+      <svg class="icon" width="16" height="16" aria-hidden="true" focusable="false"><use href="#i-arrow-down"></use></svg>
+    </a>
+    <p class="mobile-menu__meta">Version 0.1.0 · Windows 10/11 · x64 · 4.4 MB</p>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ───────────────────────────── HERO ───────────────────────────── -->
+  <section class="hero" id="top" aria-labelledby="hero-title">
+    <div class="wrap">
+      <div class="rail hero__rail">
+        <span class="rail__id"><i class="rail__mark" aria-hidden="true"></i>00 / Launch</span>
+        <span class="rail__note">No accounts · No telemetry · Windows 10 / 11</span>
+      </div>
+
+      <div class="hero__head">
+        <p class="eyebrow"><span class="eyebrow__dot" aria-hidden="true"></span>Local-first game launcher</p>
+        <h1 class="display hero__title" id="hero-title">Everything, <br><span class="hero__title-line">Installed<span class="hero__period" aria-hidden="true">.</span></span></h1>
+      </div>
+
+      <div class="hero__foot">
+        <div class="hero__lede">
+          <p class="hero__sub">Steam, Epic, and GOG in one fast local library. No accounts. No store. No feed.</p>
+          <div class="hero__actions">
+            <a class="btn btn--lime" href="downloads/Vite_0.1.0_x64-setup.exe" download>
+              <span>Download for Windows</span>
+              <svg class="icon" width="18" height="18" aria-hidden="true" focusable="false"><use href="#i-arrow-down"></use></svg>
+            </a>
+            <a class="btn btn--ghost" href="#features">
+              <span>Inspect features</span>
+              <svg class="icon" width="16" height="16" aria-hidden="true" focusable="false"><use href="#i-arrow-right"></use></svg>
+            </a>
+          </div>
+        </div>
+
+        <ul class="specs" aria-label="Build specifications">
+          <li class="spec"><span class="spec__k">Platform</span><span class="spec__v">Windows 10 / 11</span></li>
+          <li class="spec"><span class="spec__k">Arch</span><span class="spec__v">x64</span></li>
+          <li class="spec"><span class="spec__k">Installer</span><span class="spec__v">4.4 MB</span></li>
+          <li class="spec"><span class="spec__k">Stack</span><span class="spec__v">Tauri + Rust</span></li>
+        </ul>
+      </div>
+
+      <figure class="shot reveal">
+        <span class="shot__tag">Real capture · 7 installed</span>
+        <div class="shot__bar">
+          <span class="shot__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="shot__name">Vite — Library</span>
+          <span class="shot__meta">1440 × 900</span>
+        </div>
+        <div class="shot__img">
+          <img src="assets/launcher-library.png" width="1440" height="900" fetchpriority="high"
+               alt="The Vite library: giant “Everything, installed” headline above filter pills and a grid of installed Steam, Epic, and GOG games with covers, playtime, and status badges.">
+        </div>
+        <figcaption class="sr-only">The Vite library on Windows, showing a searchable grid of games installed through Steam, Epic, and GOG.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ───────────────────────────── TICKER ───────────────────────────── -->
+  <div class="ticker" role="region" aria-label="Stores and principles">
+    <div class="ticker__track">
+      <div class="ticker__group">
+        <span class="ticker__item">Steam<i class="ticker__sep" aria-hidden="true"></i></span>
+        <span class="ticker__item">Epic<i class="ticker__sep" aria-hidden="true"></i></span>
+        <span class="ticker__item">GOG<i class="ticker__sep" aria-hidden="true"></i></span>
+        <span class="ticker__item">No accounts<i class="ticker__sep" aria-hidden="true"></i></span>
+        <span class="ticker__item">No telemetry<i class="ticker__sep" aria-hidden="true"></i></span>
+        <span class="ticker__item">Local-first<i class="ticker__sep" aria-hidden="true"></i></span>
+        <span class="ticker__item">Windows<i class="ticker__sep" aria-hidden="true"></i></span>
+      </div>
+      <div class="ticker__group" aria-hidden="true">
+        <span class="ticker__item">Steam<i class="ticker__sep"></i></span>
+        <span class="ticker__item">Epic<i class="ticker__sep"></i></span>
+        <span class="ticker__item">GOG<i class="ticker__sep"></i></span>
+        <span class="ticker__item">No accounts<i class="ticker__sep"></i></span>
+        <span class="ticker__item">No telemetry<i class="ticker__sep"></i></span>
+        <span class="ticker__item">Local-first<i class="ticker__sep"></i></span>
+        <span class="ticker__item">Windows<i class="ticker__sep"></i></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ───────────────────────────── FEATURES ───────────────────────────── -->
+  <section class="section features" id="features" aria-labelledby="features-title">
+    <div class="wrap">
+      <div class="rail">
+        <span class="rail__id"><i class="rail__mark" aria-hidden="true"></i>01 / Features</span>
+        <span class="rail__note">Reads your disk. Not your account.</span>
+      </div>
+
+      <div class="section__head">
+        <h2 class="display h2" id="features-title">The launcher that <br>gets out of the way.</h2>
+        <p class="section__lede">Vite indexes what Steam, Epic, and GOG already installed, launches through each store’s own protocol, and leaves ownership checks, updates, and achievements alone. Then it disappears into the tray.</p>
+      </div>
+
+      <div class="feature-grid">
+        <article class="card reveal">
+          <div class="card__top"><span class="card__num">01</span><svg class="icon card__icon" width="26" height="26" aria-hidden="true" focusable="false"><use href="#i-command"></use></svg></div>
+          <h3 class="card__title">Quick-launch palette</h3>
+          <p class="card__copy"><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Space</kbd> opens fuzzy search over everything installed. Enter launches; Shift + Enter opens the game page.</p>
+          <span class="card__tag">Global hotkey</span>
+        </article>
+
+        <article class="card reveal">
+          <div class="card__top"><span class="card__num">02</span><svg class="icon card__icon" width="26" height="26" aria-hidden="true" focusable="false"><use href="#i-inbox"></use></svg></div>
+          <h3 class="card__title">A tray that remembers</h3>
+          <p class="card__copy">Recents and running games sit in the system tray with a targeted Stop, so the window can stay closed while the library stays one click away.</p>
+          <span class="card__tag">Recent + running</span>
+        </article>
+
+        <article class="card reveal">
+          <div class="card__top"><span class="card__num">03</span><svg class="icon card__icon" width="26" height="26" aria-hidden="true" focusable="false"><use href="#i-layers"></use></svg></div>
+          <h3 class="card__title">Your order, not the store’s</h3>
+          <p class="card__copy">Collections, tags, notes, and smart shelves for updates, unplayed games, and store source — plus <strong>Pick for me</strong> when the backlog wins.</p>
+          <span class="card__tag">Collections / tags / notes</span>
+        </article>
+
+        <article class="card reveal">
+          <div class="card__top"><span class="card__num">04</span><svg class="icon card__icon" width="26" height="26" aria-hidden="true" focusable="false"><use href="#i-sliders"></use></svg></div>
+          <h3 class="card__title">Per-game launch profiles</h3>
+          <p class="card__copy">Arguments, working directory, environment variables, a pre-launch command, and run-as-admin — while the store’s own launch stays the default.</p>
+          <span class="card__tag">Args · env · admin</span>
+        </article>
+
+        <article class="card reveal">
+          <div class="card__top"><span class="card__num">05</span><svg class="icon card__icon" width="26" height="26" aria-hidden="true" focusable="false"><use href="#i-pulse"></use></svg></div>
+          <h3 class="card__title">Library health badges</h3>
+          <p class="card__copy">Update required, missing install, running, or never played — flag the real state of the library and filter straight to it.</p>
+          <span class="card__tag">Update / missing / running</span>
+        </article>
+
+        <article class="card reveal">
+          <div class="card__top"><span class="card__num">06</span><svg class="icon card__icon" width="26" height="26" aria-hidden="true" focusable="false"><use href="#i-database"></use></svg></div>
+          <h3 class="card__title">Backups, export, portable</h3>
+          <p class="card__copy">Keep the last seven daily SQLite snapshots, export the catalog as JSON and import it back, or run entirely from a <code>vite.portable</code> marker.</p>
+          <span class="card__tag">Local data</span>
+        </article>
+
+        <article class="card reveal">
+          <div class="card__top"><span class="card__num">07</span><svg class="icon card__icon" width="26" height="26" aria-hidden="true" focusable="false"><use href="#i-refresh"></use></svg></div>
+          <h3 class="card__title">An update check you ask for</h3>
+          <p class="card__copy">A manual check against an HTTPS JSON release manifest, which opens the new installer in your browser. No silent background updates.</p>
+          <span class="card__tag">Manual, by design</span>
+        </article>
+
+        <article class="card reveal">
+          <div class="card__top"><span class="card__num">08</span><svg class="icon card__icon" width="26" height="26" aria-hidden="true" focusable="false"><use href="#i-wifi-off"></use></svg></div>
+          <h3 class="card__title">Offline, not degraded</h3>
+          <p class="card__copy">Skip remote artwork and player history in offline mode; missing images fall back to generated covers and scan errors stay readable.</p>
+          <span class="card__tag">No network required</span>
+        </article>
+      </div>
+
+      <p class="features__foot reveal">No store, no payments, no downloads of game content. Vite is a catalog and a launcher for games you already own.</p>
+    </div>
+  </section>
+
+  <!-- ───────────────────────────── OVERLAY ───────────────────────────── -->
+  <section class="section overlay" id="overlay" aria-labelledby="overlay-title">
+    <div class="wrap">
+      <div class="rail">
+        <span class="rail__id"><i class="rail__mark" aria-hidden="true"></i>02 / Overlay</span>
+        <span class="rail__note">Shift + Tab</span>
+      </div>
+
+      <div class="overlay__head">
+        <h2 class="display h2" id="overlay-title">One hotkey. <br>No alt-tab.</h2>
+        <p class="section__lede">A Steam-like overlay over whatever you are playing: the running game, a session timer, an approximate latency read, and the current boost state. Close it and you are back in the game.</p>
+      </div>
+
+      <figure class="overlay__figure reveal">
+        <div class="overlay__frame">
+          <span class="overlay__hint" aria-hidden="true">Full-screen overlay</span>
+          <img src="assets/overlay-fullscreen.png" width="1920" height="1080" loading="lazy"
+               alt="The Vite full-screen overlay during a session: Puck is running, the timer reads 00:07, latency is 9 ms, Game Boost is active in Game mode, and an Open Vite button sits in the corner.">
+        </div>
+        <figcaption class="overlay__caption"><span>Fig. 01</span> In-session overlay. The running title, timer, latency, and boost state — with Shift+Tab and Esc always visible.</figcaption>
+      </figure>
+
+      <div class="overlay__bottom">
+        <ul class="detail-list">
+          <li class="detail">
+            <svg class="icon" width="20" height="20" aria-hidden="true" focusable="false"><use href="#i-timer"></use></svg>
+            <div><span class="detail__k">Session timer</span><span class="detail__v">Ticks from the moment the game starts, not from when you opened the overlay.</span></div>
+          </li>
+          <li class="detail">
+            <svg class="icon" width="20" height="20" aria-hidden="true" focusable="false"><use href="#i-wifi"></use></svg>
+            <div><span class="detail__k">Latency probe</span><span class="detail__v">One ICMP echo to 1.1.1.1, at most once every five seconds. Nothing is stored.</span></div>
+          </li>
+          <li class="detail">
+            <svg class="icon" width="20" height="20" aria-hidden="true" focusable="false"><use href="#i-power"></use></svg>
+            <div><span class="detail__k">Boost state</span><span class="detail__v">See whether Game Boost is on without leaving the game.</span></div>
+          </li>
+          <li class="detail">
+            <svg class="icon" width="20" height="20" aria-hidden="true" focusable="false"><use href="#i-arrow-right"></use></svg>
+            <div><span class="detail__k">Open Vite</span><span class="detail__v">One button back to the library, the session, and the stop control.</span></div>
+          </li>
+        </ul>
+
+        <div class="note">
+          <span class="note__label">Honest limitation</span>
+          The overlay is a separate always-on-top window, not an injected hook. It covers desktop, windowed, and borderless games; games in exclusive fullscreen may draw over it.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────────────────── DISCORD + BOOST ───────────────────────────── -->
+  <section class="section duo" id="boost" aria-labelledby="duo-title">
+    <div class="wrap">
+      <div class="rail">
+        <span class="rail__id"><i class="rail__mark" aria-hidden="true"></i>03 / Extensions</span>
+        <span class="rail__note">Always on · Reversible</span>
+      </div>
+
+      <h2 class="sr-only" id="duo-title">Discord Rich Presence and Game Boost</h2>
+
+      <div class="duo__grid">
+        <article class="panel reveal">
+          <header class="panel__head">
+            <span class="panel__label">Discord Rich Presence</span>
+            <span class="panel__badge">Always on</span>
+          </header>
+
+          <div class="presence" role="img" aria-label="Mock Discord presence: Playing Puck with Vite, 14 minutes elapsed.">
+            <div class="presence__avatar"><img src="assets/vite-logo.png" width="64" height="64" alt="" loading="lazy"></div>
+            <div class="presence__body">
+              <span class="presence__kicker"><i aria-hidden="true"></i>Playing a game</span>
+              <span class="presence__game">Puck</span>
+              <span class="presence__sub">with <strong>Vite</strong></span>
+              <span class="presence__time">00:14 elapsed</span>
+            </div>
+          </div>
+
+          <p class="panel__copy">While Discord desktop is running, Vite keeps your status current: <em>“Playing Puck with Vite”</em> with the Vite logo, through Vite’s built-in Discord app. Nothing to configure, and no library data leaves your machine.</p>
+
+          <p class="panel__hint"><span>Requires</span> Discord desktop running</p>
+
+          <div class="note">
+            <span class="note__label">What Discord receives</span>
+            The activity text, the session start time, and the Vite image asset — sent over Discord’s local named pipe. Nothing is uploaded to a Vite server.
+          </div>
+        </article>
+
+        <article class="panel reveal">
+          <header class="panel__head">
+            <span class="panel__label">Game Boost</span>
+            <span class="panel__badge panel__badge--lime"><i aria-hidden="true"></i>Reversible</span>
+          </header>
+
+          <div class="boost" role="img" aria-label="Mock Game Boost panel: active for Puck, with four reversible toggles enabled.">
+            <div class="boost__status">
+              <span class="boost__dot" aria-hidden="true"></span>
+              <span class="boost__state">Boost active</span>
+              <span class="boost__game">Puck</span>
+            </div>
+            <ul class="boost__list">
+              <li><span class="boost__check" aria-hidden="true"><svg class="icon" width="12" height="12" focusable="false"><use href="#i-check"></use></svg></span>High process priority<span class="boost__tag">priority</span></li>
+              <li><span class="boost__check" aria-hidden="true"><svg class="icon" width="12" height="12" focusable="false"><use href="#i-check"></use></svg></span>High-performance power plan<span class="boost__tag">os</span></li>
+              <li><span class="boost__check" aria-hidden="true"><svg class="icon" width="12" height="12" focusable="false"><use href="#i-check"></use></svg></span>Background sampling paused<span class="boost__tag">vite</span></li>
+              <li><span class="boost__check" aria-hidden="true"><svg class="icon" width="12" height="12" focusable="false"><use href="#i-check"></use></svg></span>TCP no-delay on Vite’s own sockets<span class="boost__tag">optional</span></li>
+            </ul>
+          </div>
+
+          <p class="panel__copy">Four reversible changes for the game you are running: priority, the Windows High Performance plan, paused background work, and optional TCP no-delay that only affects Vite’s own short-lived HTTP sockets.</p>
+
+          <div class="note">
+            <span class="note__label">No magic FPS claims</span>
+            Boost reduces contention; it does not unlock frames or improve game-server routing. Every change is reverted when the game stops or you toggle it off.
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────────────────── STATS ───────────────────────────── -->
+  <section class="section stats" id="stats" aria-labelledby="stats-title">
+    <div class="wrap">
+      <div class="rail">
+        <span class="rail__id"><i class="rail__mark" aria-hidden="true"></i>04 / Stats</span>
+        <span class="rail__note">Steam API · five-minute samples</span>
+      </div>
+
+      <div class="stats__grid">
+        <div class="stats__copy">
+          <h2 class="display h2" id="stats-title">Sampled on <br>your machine.</h2>
+          <p class="section__lede">Steam player counts, sampled on your machine every five minutes through the official Steam API. No dashboard account — the history stays in your local database.</p>
+
+          <dl class="mini-stats">
+            <div class="mini-stat"><dt>Retention</dt><dd>90 days</dd></div>
+            <div class="mini-stat"><dt>Source</dt><dd>Steam web API</dd></div>
+            <div class="mini-stat"><dt>Storage</dt><dd>Local SQLite</dd></div>
+          </dl>
+
+          <p class="stats__fineprint">Charts are drawn from Vite’s own five-minute Steam API samples. Hours and days when Vite was closed stay gaps instead of being filled in. Epic games have no player charts — and Vite never invents them.</p>
+        </div>
+
+        <div class="chart reveal">
+          <div class="chart__head">
+            <div>
+              <span class="chart__label">Player pulse</span>
+              <span class="chart__game">Puck · Steam</span>
+            </div>
+            <span class="chart__range">Last 24 h</span>
+          </div>
+
+          <div class="chart__figure">
+            <span class="chart__value">18,204</span>
+            <span class="chart__unit">playing now</span>
+            <span class="chart__delta"><svg class="icon" width="12" height="12" aria-hidden="true" focusable="false"><use href="#i-arrow-right"></use></svg>2.4% / 1 h</span>
+          </div>
+
+          <div class="chart__plot">
+            <svg class="spark" viewBox="0 0 720 220" role="img" aria-label="Illustrative 24-hour player count curve: a quiet overnight trough near 13,000 and an evening peak near 22,000, ending at 18,204.">
+              <defs>
+                <linearGradient id="sparkFill" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#c7ff3e" stop-opacity="0.22"></stop>
+                  <stop offset="100%" stop-color="#c7ff3e" stop-opacity="0"></stop>
+                </linearGradient>
+              </defs>
+              <g class="spark__grid" aria-hidden="true">
+                <line x1="0" y1="30" x2="720" y2="30"></line>
+                <line x1="0" y1="90" x2="720" y2="90"></line>
+                <line x1="0" y1="150" x2="720" y2="150"></line>
+              </g>
+              <polygon class="spark__area" fill="url(#sparkFill)" points="0,156.1 31.3,167.1 62.6,179.9 93.9,189 125.2,194.5 156.5,196.3 187.8,190.9 219.1,176.2 250.4,152.5 281.7,130.5 313,114.1 344.3,97.6 375.7,84.8 407,72 438.3,62.9 469.6,51.9 500.9,42.8 532.2,35.5 563.5,30 594.8,33.6 626.1,46.4 657.4,66.6 688.7,86.7 720,101.3 720,220 0,220"></polygon>
+              <polyline class="spark__line" points="0,156.1 31.3,167.1 62.6,179.9 93.9,189 125.2,194.5 156.5,196.3 187.8,190.9 219.1,176.2 250.4,152.5 281.7,130.5 313,114.1 344.3,97.6 375.7,84.8 407,72 438.3,62.9 469.6,51.9 500.9,42.8 532.2,35.5 563.5,30 594.8,33.6 626.1,46.4 657.4,66.6 688.7,86.7 720,101.3"></polyline>
+              <circle class="spark__dot" cx="720" cy="101.3" r="5"></circle>
+            </svg>
+            <div class="chart__axis" aria-hidden="true"><span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>Now</span></div>
+          </div>
+
+          <div class="chart__foot">
+            <span class="chart__legend"><i aria-hidden="true"></i>Five-minute Steam API samples</span>
+            <span class="chart__note">Illustrative shape. The real chart is yours.</span>
+          </div>
+        </div>
+      </div>
+
+      <ul class="stat-row">
+        <li class="stat"><span class="stat__k">Playtime</span><span class="stat__v">Cumulative sessions Vite actually recorded, extended live while a game runs.</span></li>
+        <li class="stat"><span class="stat__k">Rhythm</span><span class="stat__v">A weekday and hour heat map of when you really play.</span></li>
+        <li class="stat"><span class="stat__k">Top games</span><span class="stat__v">Most played for the range, with Steam all-time kept separate.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ───────────────────────────── GALLERY ───────────────────────────── -->
+  <section class="section gallery" id="gallery" aria-labelledby="gallery-title">
+    <div class="wrap">
+      <div class="rail">
+        <span class="rail__id"><i class="rail__mark" aria-hidden="true"></i>05 / Surfaces</span>
+        <span class="rail__note">Three screens, no tour</span>
+      </div>
+
+      <div class="section__head">
+        <h2 class="display h2" id="gallery-title">The views you’ll <br>actually use.</h2>
+        <p class="section__lede">No dashboards to learn. A library with real art, a palette you summon over it, and a settings page that shows exactly where your data lives.</p>
+      </div>
+
+      <div class="gallery__grid">
+        <figure class="fig reveal">
+          <div class="fig__frame">
+            <img src="assets/launcher-palette.png" width="1440" height="900" loading="lazy"
+                 alt="Quick-launch palette open over the dimmed library, showing the query “puck”, one matching game, and Enter to launch / Shift+Enter for details.">
+          </div>
+          <figcaption class="fig__cap">
+            <span class="fig__num">Fig. 02</span>
+            <span class="fig__title">Quick launch</span>
+            <span class="fig__copy">Ctrl + Shift + Space over any view. Fuzzy search, recents, pinned games; Enter launches, Shift + Enter opens details.</span>
+          </figcaption>
+        </figure>
+
+        <figure class="fig fig--offset reveal">
+          <div class="fig__frame">
+            <img src="assets/launcher-settings-updates.png" width="1440" height="1000" loading="lazy"
+                 alt="Vite settings scrolled to Data and Updates: automatic daily backup toggle, open data folder, backup now, export, import, and a manual Check for updates button showing current version 0.1.0.">
+          </div>
+          <figcaption class="fig__cap">
+            <span class="fig__num">Fig. 03</span>
+            <span class="fig__title">Settings → Data &amp; Updates</span>
+            <span class="fig__copy">Seven daily backups, the data folder in plain sight, JSON export and import, portable mode, and a manual update check.</span>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────────────────── DOWNLOAD ───────────────────────────── -->
+  <section class="section download" id="download" aria-labelledby="download-title">
+    <div class="wrap">
+      <div class="rail">
+        <span class="rail__id"><i class="rail__mark" aria-hidden="true"></i>06 / Download</span>
+        <span class="rail__note">Version 0.1.0 · Windows x64</span>
+      </div>
+
+      <h2 class="display h2 h2--xl" id="download-title">Your library. <br><span class="lime">Your machine.</span></h2>
+
+      <div class="download__grid">
+        <div class="download__copy">
+          <p class="section__lede">One NSIS installer. No account, no key, no storefront. Install it, scan the libraries you already have, and close it when you are done.</p>
+
+          <ol class="steps">
+            <li class="step"><span class="step__num">01</span><span class="step__title">Download</span><span class="step__copy">Grab the 4.4 MB installer below.</span></li>
+            <li class="step"><span class="step__num">02</span><span class="step__title">Install</span><span class="step__copy">Per-machine setup. WebView2 bootstraps if missing.</span></li>
+            <li class="step"><span class="step__num">03</span><span class="step__title">Scan &amp; launch</span><span class="step__copy">Vite reads Steam, Epic, and GOG on first run.</span></li>
+          </ol>
+
+          <div class="reqs">
+            <span class="reqs__k">Requirements</span>
+            <dl class="reqs__list">
+              <div class="reqs__row"><dt>OS</dt><dd>Windows 10 or Windows 11, x64</dd></div>
+              <div class="reqs__row"><dt>Runtime</dt><dd>Edge WebView2 — setup bootstraps it if missing</dd></div>
+              <div class="reqs__row"><dt>Stores</dt><dd>At least one of Steam, Epic, or GOG installed</dd></div>
+              <div class="reqs__row"><dt>Data</dt><dd>Local SQLite in %APPDATA%\Vite · portable mode</dd></div>
+            </dl>
+          </div>
+        </div>
+
+        <div class="installer reveal">
+          <div class="installer__head">
+            <img src="assets/vite-logo.png" width="40" height="40" alt="" loading="lazy">
+            <div class="installer__title">
+              <span class="installer__name">Vite setup</span>
+              <span class="installer__meta">NSIS installer · per-machine</span>
+            </div>
+            <span class="installer__ver">0.1.0</span>
+          </div>
+
+          <dl class="spec-table">
+            <div class="spec-row"><dt>Version</dt><dd>0.1.0</dd></div>
+            <div class="spec-row"><dt>Platform</dt><dd>Windows 10 / 11</dd></div>
+            <div class="spec-row"><dt>Architecture</dt><dd>x64</dd></div>
+            <div class="spec-row"><dt>Size</dt><dd>4.4 MB</dd></div>
+            <div class="spec-row"><dt>Runtime</dt><dd>WebView2 (bootstrap)</dd></div>
+            <div class="spec-row"><dt>Signature</dt><dd>Unsigned build</dd></div>
+          </dl>
+
+          <a class="btn btn--lime btn--block" href="downloads/Vite_0.1.0_x64-setup.exe" download>
+            <span>Download for Windows</span>
+            <svg class="icon" width="18" height="18" aria-hidden="true" focusable="false"><use href="#i-arrow-down"></use></svg>
+          </a>
+
+          <p class="installer__hash"><span>SHA-256</span> 0AEEC8185719DA37D2F6FA3C44EBBE39BEC55FD46F0DE729AC6E51A5A385A195</p>
+
+          <div class="note note--compact">
+            <span class="note__label">Before you install</span>
+            The installer is not code-signed, so Windows SmartScreen may warn on first run. Automatic in-app updates are not enabled: check the manifest in Settings when you want a newer build.
+          </div>
+        </div>
+      </div>
+
+      <p class="download__foot">Windows 10/11 x64 only · Steam, Epic, and GOG only · No accounts, no telemetry, no cloud sync</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- ───────────────────────────── FOOTER ───────────────────────────── -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <a class="brand" href="#top" aria-label="Vite — back to top">
+          <img class="brand__mark" src="assets/vite-logo.png" alt="" width="36" height="36" loading="lazy">
+          <span class="brand__word">VITE</span>
+        </a>
+        <p class="footer__tagline">A local launcher for the games you already own.</p>
+        <p class="footer__ver">Version 0.1.0 · Windows 10/11 · x64</p>
+      </div>
+
+      <nav class="footer__nav" aria-label="Footer">
+        <span class="footer__k">Site</span>
+        <a href="#features">Features</a>
+        <a href="#overlay">Overlay</a>
+        <a href="#stats">Stats</a>
+        <a href="#download">Download</a>
+      </nav>
+
+      <div class="footer__legal">
+        <span class="footer__k">Notes</span>
+        <p>Built with Tauri, React, and Rust.</p>
+        <p>Steam, Epic, and GOG are trademarks of their respective owners. Vite is not affiliated with Valve, Epic Games, or GOG.</p>
+        <p>No accounts. No telemetry. No cloud.</p>
+      </div>
+    </div>
+
+    <div class="footer__word" aria-hidden="true">VITE<span>.</span></div>
+
+    <div class="footer__bottom">
+      <span>© 2026 Vite</span>
+      <span>Local library / 001</span>
+      <span>0.1.0 — windows x64</span>
+    </div>
+  </div>
+</footer>
+
+<script src="main.js" defer></script>
+</body>
+</html>
