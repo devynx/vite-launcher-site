@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Vite — Local-first game launcher for Windows</title>
-<meta name="description" content="Vite is a local-first Windows game launcher for Steam, Epic, and GOG. One fast library, a Steam-like overlay, and a reversible Game Boost. No accounts, no store, no telemetry.">
+<meta name="description" content="Vite is a local-first Windows game launcher for Steam, Epic, and GOG. One fast library, a Steam-like overlay, local profiles and friends, and a reversible Game Boost. No store, no telemetry, no cloud.">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#0a0b0a">
 <meta property="og:title" content="Vite — everything, installed.">
-<meta property="og:description" content="Steam, Epic, and GOG in one fast local library. No accounts. No store. No feed.">
+<meta property="og:description" content="Steam, Epic, and GOG in one fast local library. Local profiles and friends, no store, no feed.">
 <meta property="og:type" content="website">
 <link rel="icon" href="assets/vite-logo.png" type="image/png">
 <link rel="preload" href="assets/fonts/anton-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -56,6 +56,7 @@
       <a href="#features" data-navlink>Features</a>
       <a href="#overlay" data-navlink>Overlay</a>
       <a href="#stats" data-navlink>Stats</a>
+      <a href="#accounts" data-navlink>Accounts</a>
       <a href="#download" data-navlink>Download</a>
     </nav>
 
@@ -76,6 +77,7 @@
       <a href="#features">Features</a>
       <a href="#overlay">Overlay</a>
       <a href="#stats">Stats</a>
+      <a href="#accounts">Accounts</a>
       <a href="#download">Download</a>
     </nav>
     <a class="btn btn--lime btn--block" href="downloads/Vite_0.1.0_x64-setup.exe" download>
@@ -93,7 +95,7 @@
     <div class="wrap">
       <div class="rail hero__rail">
         <span class="rail__id"><i class="rail__mark" aria-hidden="true"></i>00 / Launch</span>
-        <span class="rail__note">No accounts · No telemetry · Windows 10 / 11</span>
+        <span class="rail__note">Local profiles · No telemetry · Windows 10 / 11</span>
       </div>
 
       <div class="hero__head">
@@ -357,11 +359,156 @@
     </div>
   </section>
 
+  <!-- ───────────────────────────── BOOST: OFF VS ON ───────────────────────────── -->
+  <section class="section boostlab" id="boost-lab" aria-labelledby="boostlab-title">
+    <div class="wrap">
+      <div class="rail">
+        <span class="rail__id"><i class="rail__mark" aria-hidden="true"></i>04 / Boost lab</span>
+        <span class="rail__note">Illustrative preview</span>
+      </div>
+
+      <div class="section__head">
+        <h2 class="display h2" id="boostlab-title">Boost off, <br>boost on.</h2>
+        <p class="section__lede">The same session with Game Boost off and on. With Boost on, Vite pauses its background sampling and asks Windows for high process priority and the High Performance power plan, so frame pacing has less contention to absorb. The numbers below are illustrative, not measured in a game.</p>
+      </div>
+
+      <div class="boostlab__grid">
+        <article class="panel bstate reveal" role="img" aria-label="Illustrative preview with Game Boost off: background scans and polling stay active, frame times are spikier, and the preview reads 58 average FPS with a 44 FPS 1% low.">
+          <header class="panel__head">
+            <span class="panel__label">Boost off</span>
+            <span class="panel__badge">Background active</span>
+          </header>
+
+          <p class="bstate__desc">Library scans, player sampling, and artwork polling keep running alongside the game.</p>
+
+          <div class="bstate__chart" aria-hidden="true">
+            <div class="bstate__charthead"><span>Frame time</span><span>Spikier cadence</span></div>
+            <div class="bstate__bars bstate__bars--off">
+              <i style="--h:44%"></i><i style="--h:58%"></i><i style="--h:71%"></i><i style="--h:39%"></i><i style="--h:83%"></i><i style="--h:52%"></i><i style="--h:34%"></i><i style="--h:66%"></i><i style="--h:88%"></i><i style="--h:57%"></i><i style="--h:44%"></i><i style="--h:72%"></i><i style="--h:35%"></i><i style="--h:61%"></i><i style="--h:79%"></i><i style="--h:48%"></i><i style="--h:90%"></i><i style="--h:53%"></i><i style="--h:38%"></i><i style="--h:68%"></i><i style="--h:42%"></i><i style="--h:76%"></i><i style="--h:31%"></i><i style="--h:59%"></i><i style="--h:84%"></i><i style="--h:47%"></i>
+            </div>
+            <div class="bstate__ticks"><span>8 ms</span><span>16.7 ms</span><span>33 ms</span></div>
+          </div>
+
+          <div class="bstate__metrics">
+            <div class="bmetric"><span class="bmetric__k">Avg FPS</span><span class="bmetric__v">58</span></div>
+            <div class="bmetric"><span class="bmetric__k">1% low</span><span class="bmetric__v">44</span></div>
+            <span class="bstate__illus">Illustrative</span>
+          </div>
+        </article>
+
+        <article class="panel bstate bstate--on reveal" role="img" aria-label="Illustrative preview with Game Boost on: background work paused, frame times steadier, and the preview reads 63 average FPS with a 55 FPS 1% low.">
+          <header class="panel__head">
+            <span class="panel__label">Boost on</span>
+            <span class="panel__badge panel__badge--lime"><i aria-hidden="true"></i>Background paused</span>
+          </header>
+
+          <p class="bstate__desc">Vite’s polling is paused, the running game gets high priority, and the High Performance plan is active.</p>
+
+          <div class="bstate__chart" aria-hidden="true">
+            <div class="bstate__charthead"><span>Frame time</span><span>Steadier cadence</span></div>
+            <div class="bstate__bars bstate__bars--on">
+              <i style="--h:33%"></i><i style="--h:35%"></i><i style="--h:31%"></i><i style="--h:36%"></i><i style="--h:34%"></i><i style="--h:30%"></i><i style="--h:37%"></i><i style="--h:33%"></i><i style="--h:35%"></i><i style="--h:32%"></i><i style="--h:36%"></i><i style="--h:31%"></i><i style="--h:34%"></i><i style="--h:38%"></i><i style="--h:33%"></i><i style="--h:30%"></i><i style="--h:36%"></i><i style="--h:34%"></i><i style="--h:32%"></i><i style="--h:37%"></i><i style="--h:31%"></i><i style="--h:35%"></i><i style="--h:33%"></i><i style="--h:36%"></i><i style="--h:30%"></i><i style="--h:34%"></i>
+            </div>
+            <div class="bstate__ticks"><span>8 ms</span><span>16.7 ms</span><span>33 ms</span></div>
+          </div>
+
+          <div class="bstate__metrics">
+            <div class="bmetric"><span class="bmetric__k">Avg FPS</span><span class="bmetric__v">63</span></div>
+            <div class="bmetric"><span class="bmetric__k">1% low</span><span class="bmetric__v">55</span></div>
+            <span class="bstate__illus">Illustrative</span>
+          </div>
+        </article>
+      </div>
+
+      <div class="note note--wide boostlab__note">
+        <span class="note__label">Read the label</span>
+        Illustrative preview, not a game benchmark. Real results depend on the game, GPU, and CPU; Game Boost cannot guarantee FPS or network latency.
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────────────────── ACCOUNTS & FRIENDS ───────────────────────────── -->
+  <section class="section profiles" id="accounts" aria-labelledby="accounts-title">
+    <div class="wrap">
+      <div class="rail">
+        <span class="rail__id"><i class="rail__mark" aria-hidden="true"></i>05 / Accounts &amp; friends</span>
+        <span class="rail__note">Stored on this PC</span>
+      </div>
+
+      <div class="section__head">
+        <h2 class="display h2" id="accounts-title">Accounts, <br>without the cloud.</h2>
+        <p class="section__lede">Create a local profile and sign in without an email address. Share a friend code, add or remove friends, and keep the whole list in your own Vite database. Nothing syncs, because nothing leaves this PC.</p>
+      </div>
+
+      <div class="profiles__grid">
+        <article class="panel profile-card reveal" role="img" aria-label="Mock local profile: Puck, signed in on this PC, with friend code VITE-9F2C-7K4Q and the profile stored in the local database.">
+          <header class="panel__head">
+            <span class="panel__label">Local profile</span>
+            <span class="panel__badge">Signed in</span>
+          </header>
+
+          <div class="profile-id">
+            <span class="profile-id__avatar" aria-hidden="true"><img src="assets/vite-logo.png" width="56" height="56" alt="" loading="lazy"></span>
+            <span class="profile-id__body">
+              <span class="profile-id__name">Puck</span>
+              <span class="profile-id__sub">Local account · no email</span>
+            </span>
+          </div>
+
+          <div class="friend-code">
+            <span class="friend-code__k">Friend code</span>
+            <span class="friend-code__v">VITE-9F2C-7K4Q</span>
+          </div>
+
+          <p class="profile-card__foot"><span>Storage</span>vite.db in your local Vite data folder</p>
+        </article>
+
+        <article class="panel friends-card reveal" role="img" aria-label="Mock local friends list: Mira and Owen, added by friend code and marked local, with an add-by-friend-code field and remove actions. No online discovery.">
+          <header class="panel__head">
+            <span class="panel__label">Friends</span>
+            <span class="panel__badge">2 local</span>
+          </header>
+
+          <div class="friends-add" aria-hidden="true">
+            <span class="friends-add__field">Add by friend code</span>
+            <span class="friends-add__btn">Add</span>
+          </div>
+
+          <ul class="friends-list">
+            <li>
+              <span class="friends-list__av" aria-hidden="true">M</span>
+              <span class="friends-list__body"><span class="friends-list__name">Mira</span><span class="friends-list__code">VITE-4Q7M-2X8B</span></span>
+              <span class="friends-list__actions"><span class="friends-list__tag">Local</span><span class="friends-list__remove">Remove</span></span>
+            </li>
+            <li>
+              <span class="friends-list__av" aria-hidden="true">O</span>
+              <span class="friends-list__body"><span class="friends-list__name">Owen</span><span class="friends-list__code">VITE-8K2D-9C3N</span></span>
+              <span class="friends-list__actions"><span class="friends-list__tag">Local</span><span class="friends-list__remove">Remove</span></span>
+            </li>
+          </ul>
+
+          <p class="friends-card__foot"><span>Discovery</span>Manual friend codes only — no online search</p>
+        </article>
+      </div>
+
+      <ul class="stat-row">
+        <li class="stat"><span class="stat__k">Create &amp; sign in</span><span class="stat__v">A local profile with no email address and no account server.</span></li>
+        <li class="stat"><span class="stat__k">Friend codes</span><span class="stat__v">Share a code, add or remove friends, and keep the list in vite.db.</span></li>
+        <li class="stat"><span class="stat__k">Not synced</span><span class="stat__v">Profiles and friends stay on this PC. Online sync is not available in 0.1.0.</span></li>
+      </ul>
+
+      <div class="note note--wide">
+        <span class="note__label">Local for now</span>
+        Profiles and friends are stored locally on this PC. There is no cloud service, no online account, and no sync between machines — you share a friend code manually and add or remove friends yourself.
+      </div>
+    </div>
+  </section>
+
   <!-- ───────────────────────────── STATS ───────────────────────────── -->
   <section class="section stats" id="stats" aria-labelledby="stats-title">
     <div class="wrap">
       <div class="rail">
-        <span class="rail__id"><i class="rail__mark" aria-hidden="true"></i>04 / Stats</span>
+        <span class="rail__id"><i class="rail__mark" aria-hidden="true"></i>06 / Stats</span>
         <span class="rail__note">Steam API · five-minute samples</span>
       </div>
 
@@ -433,7 +580,7 @@
   <section class="section gallery" id="gallery" aria-labelledby="gallery-title">
     <div class="wrap">
       <div class="rail">
-        <span class="rail__id"><i class="rail__mark" aria-hidden="true"></i>05 / Surfaces</span>
+        <span class="rail__id"><i class="rail__mark" aria-hidden="true"></i>07 / Surfaces</span>
         <span class="rail__note">Three screens, no tour</span>
       </div>
 
@@ -474,7 +621,7 @@
   <section class="section download" id="download" aria-labelledby="download-title">
     <div class="wrap">
       <div class="rail">
-        <span class="rail__id"><i class="rail__mark" aria-hidden="true"></i>06 / Download</span>
+        <span class="rail__id"><i class="rail__mark" aria-hidden="true"></i>08 / Download</span>
         <span class="rail__note">Version 0.1.0 · Windows x64</span>
       </div>
 
@@ -534,7 +681,7 @@
         </div>
       </div>
 
-      <p class="download__foot">Windows 10/11 x64 only · Steam, Epic, and GOG only · No accounts, no telemetry, no cloud sync</p>
+      <p class="download__foot">Windows 10/11 x64 only · Steam, Epic, and GOG only · Local profiles, no telemetry, no cloud sync</p>
     </div>
   </section>
 
@@ -558,6 +705,8 @@
         <a href="#features">Features</a>
         <a href="#overlay">Overlay</a>
         <a href="#stats">Stats</a>
+        <a href="#accounts">Accounts</a>
+        <a href="#boost-lab">Boost: off vs on</a>
         <a href="#download">Download</a>
       </nav>
 
@@ -565,7 +714,7 @@
         <span class="footer__k">Notes</span>
         <p>Built with Tauri, React, and Rust.</p>
         <p>Steam, Epic, and GOG are trademarks of their respective owners. Vite is not affiliated with Valve, Epic Games, or GOG.</p>
-        <p>No accounts. No telemetry. No cloud.</p>
+        <p>Local profiles. No telemetry. No cloud.</p>
       </div>
     </div>
 
