@@ -23,17 +23,17 @@ Performed on 2026-10-19 against the public URL after the Pages build finished.
 | `assets/overlay-fullscreen.png` | 200 | 596,509 | `image/png` |
 | `assets/vite-logo.png` | 200 | 8,187 | `image/png` |
 | `assets/fonts/anton-latin.woff2` | 200 | 18,612 | `font/woff2` |
-| `downloads/Vite_0.1.0_x64-setup.exe` | 200 | 4,383,799 | `application/octet-stream` |
+| `downloads/Vite_0.1.0_x64-setup.exe` | 200 | 4,421,048 | `application/octet-stream` |
 | `DEPLOY.md` | 200 | — | `text/plain; charset=utf-8` |
 
 The root document title is `Vite — Local-first game launcher for Windows`.
 
 ## Installer integrity
 
-The installer downloaded from the public URL is **4,383,799 bytes** with SHA-256:
+The installer downloaded from the public URL is **4,421,048 bytes** with SHA-256:
 
 ```text
-0AEEC8185719DA37D2F6FA3C44EBBE39BEC55FD46F0DE729AC6E51A5A385A195
+B007ADDF2022A23FC76BFF3803D3217F7E1C90A0F9970DCAB5771D45DA8FA933
 ```
 
 This matches the SHA-256 printed on the site's download card and the file served from `site/downloads/`.
