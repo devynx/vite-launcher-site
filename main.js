@@ -195,7 +195,7 @@
     actions.className = "friends-list__actions";
     var tag = document.createElement("span");
     tag.className = "friends-list__tag";
-    tag.textContent = "Online";
+    tag.textContent = "Friend";
     var remove = document.createElement("button");
     remove.type = "button";
     remove.className = "friends-list__remove";
@@ -223,7 +223,7 @@
     } else {
       friends.forEach(function (friend) { friendList.appendChild(renderFriend(friend)); });
     }
-    if (friendCount) friendCount.textContent = friends.length + " online";
+    if (friendCount) friendCount.textContent = friends.length + " " + (friends.length === 1 ? "friend" : "friends");
   }
 
   function showProfile(account, friends) {
