@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Vite — Local-first game launcher for Windows</title>
-<meta name="description" content="Vite is a local-first Windows game launcher for Steam, Epic, and GOG. One fast library, a Steam-like overlay, local profiles and friends, and a reversible Game Boost. No store, no telemetry, no cloud.">
+<meta name="description" content="Vite is a local-first Windows game launcher for Steam, Epic, and GOG. One fast library, a Steam-like overlay, online accounts and friends, and a reversible Game Boost. No store, no telemetry, no cloud.">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#0a0b0a">
 <meta property="og:title" content="Vite — everything, installed.">
-<meta property="og:description" content="Steam, Epic, and GOG in one fast local library. Local profiles and friends, no store, no feed.">
+<meta property="og:description" content="Steam, Epic, and GOG in one fast local library. Online accounts and friends, no store, no feed.">
 <meta property="og:type" content="website">
 <link rel="icon" href="assets/vite-logo.png" type="image/png">
 <link rel="preload" href="assets/fonts/anton-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -432,74 +432,93 @@
     <div class="wrap">
       <div class="rail">
         <span class="rail__id"><i class="rail__mark" aria-hidden="true"></i>05 / Accounts &amp; friends</span>
-        <span class="rail__note">Stored on this PC</span>
+        <span class="rail__note">Live online service</span>
       </div>
 
       <div class="section__head">
-        <h2 class="display h2" id="accounts-title">Accounts, <br>without the cloud.</h2>
-        <p class="section__lede">Create a local profile and sign in without an email address. Share a friend code, add or remove friends, and keep the whole list in your own Vite database. Nothing syncs, because nothing leaves this PC.</p>
+        <h2 class="display h2" id="accounts-title">Accounts, <br>finally online.</h2>
+        <p class="section__lede">Join right here or in the app. Create a username and password, get a friend code, and add people across devices. Your profile, friend list, and sign-in session live on Vite's account service — no email address required.</p>
       </div>
 
-      <div class="profiles__grid">
-        <article class="panel profile-card reveal" role="img" aria-label="Mock local profile: Puck, signed in on this PC, with friend code VITE-9F2C-7K4Q and the profile stored in the local database.">
+      <div class="profiles__grid" id="account-root">
+        <article class="panel profile-card reveal">
           <header class="panel__head">
-            <span class="panel__label">Local profile</span>
-            <span class="panel__badge">Signed in</span>
+            <span class="panel__label">Vite account</span>
+            <span class="panel__badge" id="account-badge">Signed out</span>
           </header>
 
-          <div class="profile-id">
-            <span class="profile-id__avatar" aria-hidden="true"><img src="assets/vite-logo.png" width="56" height="56" alt="" loading="lazy"></span>
-            <span class="profile-id__body">
-              <span class="profile-id__name">Puck</span>
-              <span class="profile-id__sub">Local account · no email</span>
-            </span>
+          <div id="account-signed-out">
+            <div class="account-tabs" role="tablist" aria-label="Account mode">
+              <button type="button" class="account-tab is-active" data-auth-mode="login" role="tab" aria-selected="true">Sign in</button>
+              <button type="button" class="account-tab" data-auth-mode="signup" role="tab" aria-selected="false">Create account</button>
+            </div>
+
+            <form class="account-form" id="account-form">
+              <label class="account-field">
+                <span>Username</span>
+                <input id="account-username" name="username" autocomplete="username" minlength="3" maxlength="32" required>
+              </label>
+              <label class="account-field" id="account-display-field" hidden>
+                <span>Display name</span>
+                <input id="account-display" name="display_name" maxlength="40" autocomplete="nickname">
+              </label>
+              <label class="account-field">
+                <span>Password</span>
+                <input id="account-password" name="password" type="password" minlength="6" maxlength="128" autocomplete="current-password" required>
+              </label>
+              <button type="submit" class="btn btn--lime btn--block" id="account-submit">Sign in</button>
+              <p class="account-status" id="account-status" role="status" aria-live="polite"></p>
+            </form>
           </div>
 
-          <div class="friend-code">
-            <span class="friend-code__k">Friend code</span>
-            <span class="friend-code__v">VITE-9F2C-7K4Q</span>
-          </div>
+          <div id="account-signed-in" hidden>
+            <div class="profile-id">
+              <span class="profile-id__avatar" aria-hidden="true" id="account-avatar"><img src="assets/vite-logo.png" width="56" height="56" alt="" loading="lazy"></span>
+              <span class="profile-id__body">
+                <span class="profile-id__name" id="account-name">—</span>
+                <span class="profile-id__sub" id="account-handle">Signed in</span>
+              </span>
+            </div>
 
-          <p class="profile-card__foot"><span>Storage</span>vite.db in your local Vite data folder</p>
+            <div class="friend-code">
+              <span class="friend-code__k">Your friend code</span>
+              <span class="friend-code__v" id="account-code">—</span>
+            </div>
+
+            <button type="button" class="account-signout" id="account-signout">Sign out</button>
+            <p class="account-status" id="account-status-in" role="status" aria-live="polite"></p>
+          </div>
         </article>
 
-        <article class="panel friends-card reveal" role="img" aria-label="Mock local friends list: Mira and Owen, added by friend code and marked local, with an add-by-friend-code field and remove actions. No online discovery.">
+        <article class="panel friends-card reveal">
           <header class="panel__head">
             <span class="panel__label">Friends</span>
-            <span class="panel__badge">2 local</span>
+            <span class="panel__badge" id="friend-count">Sign in to add</span>
           </header>
 
-          <div class="friends-add" aria-hidden="true">
-            <span class="friends-add__field">Add by friend code</span>
-            <span class="friends-add__btn">Add</span>
-          </div>
+          <form class="friends-add" id="friend-add-form">
+            <label class="sr-only" for="friend-code-input">Friend code</label>
+            <input class="friends-add__field" id="friend-code-input" maxlength="8" placeholder="Enter a friend code" autocomplete="off" disabled>
+            <button type="submit" class="friends-add__btn" id="friend-add-button" disabled>Add</button>
+          </form>
 
-          <ul class="friends-list">
-            <li>
-              <span class="friends-list__av" aria-hidden="true">M</span>
-              <span class="friends-list__body"><span class="friends-list__name">Mira</span><span class="friends-list__code">VITE-4Q7M-2X8B</span></span>
-              <span class="friends-list__actions"><span class="friends-list__tag">Local</span><span class="friends-list__remove">Remove</span></span>
-            </li>
-            <li>
-              <span class="friends-list__av" aria-hidden="true">O</span>
-              <span class="friends-list__body"><span class="friends-list__name">Owen</span><span class="friends-list__code">VITE-8K2D-9C3N</span></span>
-              <span class="friends-list__actions"><span class="friends-list__tag">Local</span><span class="friends-list__remove">Remove</span></span>
-            </li>
+          <ul class="friends-list" id="friend-list">
+            <li class="friends-empty">Sign in to manage friends.</li>
           </ul>
 
-          <p class="friends-card__foot"><span>Discovery</span>Manual friend codes only — no online search</p>
+          <p class="friends-card__foot"><span>Discovery</span>Friend codes only — no public profile browsing</p>
         </article>
       </div>
 
       <ul class="stat-row">
-        <li class="stat"><span class="stat__k">Create &amp; sign in</span><span class="stat__v">A local profile with no email address and no account server.</span></li>
-        <li class="stat"><span class="stat__k">Friend codes</span><span class="stat__v">Share a code, add or remove friends, and keep the list in vite.db.</span></li>
-        <li class="stat"><span class="stat__k">Not synced</span><span class="stat__v">Profiles and friends stay on this PC. Online sync is not available in 0.1.0.</span></li>
+        <li class="stat"><span class="stat__k">Join anywhere</span><span class="stat__v">A username and password, no email address. The same account works in the desktop app and here.</span></li>
+        <li class="stat"><span class="stat__k">Friend codes</span><span class="stat__v">Add someone by their code; the friendship is mutual and syncs to both accounts.</span></li>
+        <li class="stat"><span class="stat__k">Synced</span><span class="stat__v">Profiles and friend lists live on Vite's account service. Sessions last 30 days per device.</span></li>
       </ul>
 
       <div class="note note--wide">
-        <span class="note__label">Local for now</span>
-        Profiles and friends are stored locally on this PC. There is no cloud service, no online account, and no sync between machines — you share a friend code manually and add or remove friends yourself.
+        <span class="note__label">Online, by design</span>
+        Vite accounts are hosted. Your password is hashed before it is stored, friend codes are random, and only signed-in sessions can read a friend list. The launcher itself stays local-first: no library, playtime, or installed-game data is uploaded.
       </div>
     </div>
   </section>
@@ -681,7 +700,7 @@
         </div>
       </div>
 
-      <p class="download__foot">Windows 10/11 x64 only · Steam, Epic, and GOG only · Local profiles, no telemetry, no cloud sync</p>
+      <p class="download__foot">Windows 10/11 x64 only · Steam, Epic, and GOG only · Online accounts, no telemetry, no cloud library</p>
     </div>
   </section>
 
@@ -714,7 +733,7 @@
         <span class="footer__k">Notes</span>
         <p>Built with Tauri, React, and Rust.</p>
         <p>Steam, Epic, and GOG are trademarks of their respective owners. Vite is not affiliated with Valve, Epic Games, or GOG.</p>
-        <p>Local profiles. No telemetry. No cloud.</p>
+        <p>Online accounts. No telemetry. No cloud library.</p>
       </div>
     </div>
 
