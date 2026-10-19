@@ -26,10 +26,10 @@ The root document title is `Vite — Local-first game launcher for Windows`.
 
 ## Installer integrity
 
-The installer downloaded from the public URL is **4,477,823 bytes** with SHA-256:
+The installer downloaded from the public URL is **4,465,492 bytes** with SHA-256:
 
 ```text
-D41D05310FC63AEF32341AC92A34EDB69B8F9BB36461EB98AB403FCA0FD20D9D
+2182023C441759D98F61552FA30B830C96633C91563E4731467192695BD561B0
 ```
 
 This matches the SHA-256 printed on the site's download card and the file served from `site/downloads/`.
