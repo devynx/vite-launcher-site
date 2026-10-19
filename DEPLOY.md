@@ -4,10 +4,11 @@ The site is deployed as a static site with GitHub Pages from a public repository
 
 - **Public URL:** https://devynx.github.io/vite-launcher-site/
 - **Repository:** https://github.com/devynx/vite-launcher-site (public, branch `main`)
-- **Deployed:** 2026-10-19
+- **Deployed:** 2026-10-19 (commit `259d68f`)
 - **Pages configuration:** source `main` / repository root, build type `legacy`, HTTPS enforced
 - **Account service:** `https://iljiovhwkrtfuvmhcfhn.supabase.co/functions/v1/vite-auth` (Supabase `vite-launcher`, `eu-north-1`)
 - **Profile pages:** `profile.html?u=<username>` (public when the player allows it) and `settings.html` (requires sign-in)
+- **Presence:** the desktop app publishes a 90-second game heartbeat; signed-in friends can see it and use the friends sidebar's Join button.
 
 ## HTTP checks
 
@@ -41,6 +42,7 @@ The site shares the desktop app's hosted account service:
 
 - Create account: username + display name + password; no email.
 - Sign in / sign out and add/remove friends by 8-character code.
+- Public profile pages, account settings, bio, profile visibility, and live game presence.
 - The same account works in the desktop app and on the website.
 - The account service stores username, display name, a PBKDF2-SHA256 password hash, friend code, and mutual friend ids. The library is never uploaded.
 
