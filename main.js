@@ -359,6 +359,6 @@
   }
 
   setMode("login");
-  showSignedOut();
+  showSignedOut(false);
   loadProfile();
 })();

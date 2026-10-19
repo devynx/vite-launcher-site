@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0a0b0a">
+  <title>Account portal — Vite</title>
+  <meta name="description" content="Your Vite account portal: friends, messages, profile, and account settings.">
+  <link rel="icon" href="assets/vite-logo.png" type="image/png">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="account-pages.css">
+  <link rel="stylesheet" href="account-nav.css">
+  <link rel="stylesheet" href="portal.css">
+</head>
+<body class="page-account page-portal">
+  <header class="nav">
+    <div class="nav__inner">
+      <a class="brand" href="index.html">
+        <img src="assets/vite-logo.png" alt="" width="28" height="28">
+        <span>VITE</span>
+      </a>
+      <nav class="nav__links" aria-label="Primary">
+        <a href="index.html#features">Features</a>
+        <a href="index.html#overlay">Overlay</a>
+        <a href="index.html#stats">Stats</a>
+        <a class="is-active" href="portal.html">Accounts</a>
+        <a href="index.html#download">Download</a>
+      </nav>
+      <div class="account-nav" data-account-nav></div>
+    </div>
+  </header>
+
+  <main class="portal-page">
+    <div class="portal-shell" id="portal-loading">
+      <span class="portal-loading__mark"><img src="assets/vite-logo.png" alt="" width="24" height="24"></span>
+      <span>Opening your portal…</span>
+    </div>
+
+    <div class="portal-auth" id="portal-auth" hidden>
+      <div class="portal-auth__card">
+        <span class="account-eyebrow">Vite account portal</span>
+        <h1>Your people. Your profile.</h1>
+        <p class="portal-auth__lede">One hosted account for the launcher and this site. No email address required.</p>
+        <div class="portal-auth__tabs" role="tablist" aria-label="Account mode">
+          <button type="button" role="tab" data-auth-mode="login" aria-selected="true">Sign in</button>
+          <button type="button" role="tab" data-auth-mode="signup" aria-selected="false">Create account</button>
+        </div>
+        <form class="portal-auth__form" id="portal-auth-form" novalidate>
+          <label class="portal-field" id="portal-display-field" hidden>
+            <span>Display name</span>
+            <input id="portal-display-name" name="display_name" autocomplete="name" maxlength="40" placeholder="How friends see you">
+          </label>
+          <label class="portal-field">
+            <span>Username</span>
+            <input id="portal-username" name="username" autocomplete="username" maxlength="32" placeholder="letters, numbers, _ or -" required>
+          </label>
+          <label class="portal-field">
+            <span>Password</span>
+            <input id="portal-password" name="password" type="password" autocomplete="current-password" maxlength="128" placeholder="At least 6 characters" required>
+          </label>
+          <p class="portal-form-error" id="portal-auth-error" role="alert" hidden></p>
+          <button class="portal-primary" type="submit" id="portal-auth-submit">Sign in</button>
+        </form>
+        <p class="portal-auth__foot">Accounts are hosted by Vite's account service. Your library stays on your PC.</p>
+      </div>
+    </div>
+
+    <div class="portal-app" id="portal-app" hidden>
+      <aside class="portal-sidebar">
+        <div class="portal-identity" id="portal-identity"></div>
+
+        <nav class="portal-nav" aria-label="Portal">
+          <button type="button" data-panel="overview" class="is-active"><span>Overview</span><span aria-hidden="true">/</span></button>
+          <button type="button" data-panel="messages"><span>Messages</span><span class="portal-unread" id="portal-unread" hidden>0</span></button>
+          <button type="button" data-panel="friends"><span>Friends</span><span class="portal-count" id="portal-friend-count">0</span></button>
+          <button type="button" data-panel="profile"><span>Public profile</span><span aria-hidden="true">↗</span></button>
+          <button type="button" data-panel="settings"><span>Settings</span><span aria-hidden="true">⚙</span></button>
+        </nav>
+
+        <div class="portal-sidebar__foot">
+          <a href="index.html">Back to the site</a>
+          <button type="button" id="portal-signout">Sign out</button>
+        </div>
+      </aside>
+
+      <section class="portal-content" aria-live="polite">
+        <section class="portal-view" data-panel-view="overview">
+          <header class="portal-view__head">
+            <div>
+              <span class="account-eyebrow">Overview</span>
+              <h1>Your Vite.</h1>
+            </div>
+            <span class="account-badge" id="portal-overview-state">Signed in</span>
+          </header>
+          <div class="portal-overview" id="portal-overview"></div>
+        </section>
+
+        <section class="portal-view" data-panel-view="messages" hidden>
+          <header class="portal-view__head">
+            <div>
+              <span class="account-eyebrow">Messages</span>
+              <h1>Friends, in words.</h1>
+            </div>
+            <span class="portal-muted" id="portal-message-meta"></span>
+          </header>
+          <div class="portal-messages" id="portal-messages">
+            <aside class="portal-threads" id="portal-threads" aria-label="Conversations"></aside>
+            <div class="portal-chat" id="portal-chat"></div>
+          </div>
+        </section>
+
+        <section class="portal-view" data-panel-view="friends" hidden>
+          <header class="portal-view__head">
+            <div>
+              <span class="account-eyebrow">Friends</span>
+              <h1>Your circle.</h1>
+            </div>
+            <span class="portal-muted">Friend codes only — no public browsing</span>
+          </header>
+          <div class="portal-friends" id="portal-friends"></div>
+        </section>
+
+        <section class="portal-view" data-panel-view="profile" hidden>
+          <header class="portal-view__head">
+            <div>
+              <span class="account-eyebrow">Public profile</span>
+              <h1>How the site sees you.</h1>
+            </div>
+            <span class="account-badge" id="portal-profile-badge">Public</span>
+          </header>
+          <div class="portal-profile" id="portal-profile"></div>
+        </section>
+
+        <section class="portal-view" data-panel-view="settings" hidden>
+          <header class="portal-view__head">
+            <div>
+              <span class="account-eyebrow">Settings</span>
+              <h1>Account, your way.</h1>
+            </div>
+            <span class="portal-muted">Changes sync to the site and app</span>
+          </header>
+          <div class="portal-settings" id="portal-settings"></div>
+        </section>
+      </section>
+    </div>
+  </main>
+
+  <footer class="account-footer">
+    <span>Vite · 0.1.0</span>
+    <span><a href="index.html">Home</a> · <a href="portal.html">Portal</a> · <a href="settings.html">Settings</a> · <a href="index.html#download">Download</a></span>
+  </footer>
+
+  <script src="account-api.js" defer></script>
+  <script src="account-nav.js" defer></script>
+  <script src="portal.js" defer></script>
+</body>
+</html>

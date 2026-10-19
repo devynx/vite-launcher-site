@@ -14,6 +14,7 @@
 <link rel="preload" href="assets/fonts/anton-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="account-nav.css">
 <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
@@ -61,6 +62,7 @@
     </nav>
 
     <div class="nav__actions">
+      <div class="account-nav" data-account-nav></div>
       <a class="btn btn--lime btn--sm" href="downloads/Vite_0.1.0_x64-setup.exe" download>
         <span>Download</span>
         <svg class="icon" width="16" height="16" aria-hidden="true" focusable="false"><use href="#i-arrow-down"></use></svg>
@@ -753,5 +755,7 @@
 </footer>
 
 <script src="main.js" defer></script>
+<script src="account-api.js" defer></script>
+<script src="account-nav.js" defer></script>
 </body>
 </html>
