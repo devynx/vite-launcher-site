@@ -5,14 +5,21 @@
   var nav = document.querySelector("[data-nav]");
   var toggle = document.querySelector("[data-nav-toggle]");
   var menu = document.getElementById("mobile-menu");
+  var scrollFill = document.querySelector("[data-scroll-fill]");
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
   /* Sticky nav gets a firmer background once the page scrolls. */
   function onScroll() {
     if (nav) nav.classList.toggle("is-scrolled", window.scrollY > 12);
+    if (scrollFill) {
+      var max = document.documentElement.scrollHeight - window.innerHeight;
+      var progress = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+      scrollFill.style.height = (progress * 120).toFixed(1) + "px";
+    }
   }
   onScroll();
   window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll, { passive: true });
 
   /* Mobile menu. */
   function setMenu(open) {

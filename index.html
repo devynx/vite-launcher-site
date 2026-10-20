@@ -15,9 +15,10 @@
 <link rel="preload" href="assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="account-nav.css">
+<link rel="stylesheet" href="cinematic.css">
 <script>document.documentElement.classList.add('js');</script>
 </head>
-<body>
+<body class="site-home">
 
 <a class="skip-link" href="#main">Skip to content</a>
 
@@ -90,10 +91,16 @@
   </div>
 </header>
 
+<div class="scroll-rail" aria-hidden="true"><span data-scroll-fill></span></div>
+
 <main id="main">
 
   <!-- ───────────────────────────── HERO ───────────────────────────── -->
-  <section class="hero" id="top" aria-labelledby="hero-title">
+  <section class="hero hero--cinema" id="top" aria-labelledby="hero-title">
+    <div class="hero__media" aria-hidden="true">
+      <img src="assets/hero-game.jpg" width="1920" height="1080" alt="" fetchpriority="high">
+    </div>
+    <div class="hero__veil" aria-hidden="true"></div>
     <div class="wrap">
       <div class="rail hero__rail">
         <span class="rail__id"><i class="rail__mark" aria-hidden="true"></i>00 / Launch</span>
@@ -142,6 +149,10 @@
         <figcaption class="sr-only">The Vite library on Windows, showing a searchable grid of games installed through Steam, Epic, and GOG.</figcaption>
       </figure>
     </div>
+    <a class="hero__scroll" href="#features">
+      <span>Scroll to explore</span>
+      <i aria-hidden="true"></i>
+    </a>
   </section>
 
   <!-- ───────────────────────────── TICKER ───────────────────────────── -->
@@ -168,8 +179,23 @@
     </div>
   </div>
 
+  <!-- ───────────────────────────── MANIFESTO ───────────────────────────── -->
+  <section class="manifesto" aria-label="Vite manifesto">
+    <div class="wrap">
+      <div class="manifesto__top">
+        <p class="eyebrow"><span class="eyebrow__dot" aria-hidden="true"></span>The short version</p>
+        <span class="manifesto__mark">EST. 2026 · LOCAL-FIRST</span>
+      </div>
+      <h2 class="display manifesto__title">No store.<br>No feed.<br><span>Just your games.</span></h2>
+      <div class="manifesto__foot">
+        <p>One quiet home for the libraries you already own. Vite reads what is installed, launches it, and gets out of the way.</p>
+        <a class="manifesto__link" href="#features">See what is inside <svg class="icon" width="16" height="16" aria-hidden="true" focusable="false"><use href="#i-arrow-right"></use></svg></a>
+      </div>
+    </div>
+  </section>
+
   <!-- ───────────────────────────── FEATURES ───────────────────────────── -->
-  <section class="section features" id="features" aria-labelledby="features-title">
+  <section class="section features" id="features" data-ghost="LIBRARY" aria-labelledby="features-title">
     <div class="wrap">
       <div class="rail">
         <span class="rail__id"><i class="rail__mark" aria-hidden="true"></i>01 / Features</span>
@@ -244,7 +270,7 @@
   </section>
 
   <!-- ───────────────────────────── OVERLAY ───────────────────────────── -->
-  <section class="section overlay" id="overlay" aria-labelledby="overlay-title">
+  <section class="section overlay" id="overlay" data-ghost="PLAY" aria-labelledby="overlay-title">
     <div class="wrap">
       <div class="rail">
         <span class="rail__id"><i class="rail__mark" aria-hidden="true"></i>02 / Overlay</span>
@@ -430,7 +456,7 @@
   </section>
 
   <!-- ───────────────────────────── ACCOUNTS & FRIENDS ───────────────────────────── -->
-  <section class="section profiles" id="accounts" aria-labelledby="accounts-title">
+  <section class="section profiles" id="accounts" data-ghost="ONLINE" aria-labelledby="accounts-title">
     <div class="wrap">
       <div class="rail">
         <span class="rail__id"><i class="rail__mark" aria-hidden="true"></i>05 / Accounts &amp; friends</span>
@@ -531,25 +557,25 @@
   </section>
 
   <!-- ───────────────────────────── STATS ───────────────────────────── -->
-  <section class="section stats" id="stats" aria-labelledby="stats-title">
+  <section class="section stats" id="stats" data-ghost="STATS" aria-labelledby="stats-title">
     <div class="wrap">
       <div class="rail">
         <span class="rail__id"><i class="rail__mark" aria-hidden="true"></i>06 / Stats</span>
-        <span class="rail__note">Steam API · five-minute samples</span>
+        <span class="rail__note">Personal stats · insights</span>
       </div>
 
       <div class="stats__grid">
         <div class="stats__copy">
-          <h2 class="display h2" id="stats-title">Sampled on <br>your machine.</h2>
-          <p class="section__lede">Steam player counts, sampled on your machine every five minutes through the official Steam API. No dashboard account — the history stays in your local database.</p>
+          <h2 class="display h2" id="stats-title">Your hours.<br>Your patterns.</h2>
+          <p class="section__lede">Your own playtime, not someone else's dashboard. Sign in on the site to see your hours, top games, store split, and the patterns behind them — and put your games on your public profile when you want.</p>
 
           <dl class="mini-stats">
-            <div class="mini-stat"><dt>Retention</dt><dd>90 days</dd></div>
-            <div class="mini-stat"><dt>Source</dt><dd>Steam web API</dd></div>
-            <div class="mini-stat"><dt>Storage</dt><dd>Local SQLite</dd></div>
+            <div class="mini-stat"><dt>Visibility</dt><dd>Opt-in</dd></div>
+            <div class="mini-stat"><dt>Insights</dt><dd>Private to you</dd></div>
+            <div class="mini-stat"><dt>Profile stats</dt><dd>Games + hours</dd></div>
           </dl>
 
-          <p class="stats__fineprint">Charts are drawn from Vite’s own five-minute Steam API samples. Hours and days when Vite was closed stay gaps instead of being filled in. Epic games have no player charts — and Vite never invents them.</p>
+          <p class="stats__fineprint">Only aggregate game names, sources, and hours leave the launcher. Library files, install paths, and session logs never do. Public profiles show your shared games and totals; the insight breakdown stays on your own stats page.</p>
         </div>
 
         <div class="chart reveal">
@@ -603,7 +629,7 @@
   </section>
 
   <!-- ───────────────────────────── GALLERY ───────────────────────────── -->
-  <section class="section gallery" id="gallery" aria-labelledby="gallery-title">
+  <section class="section gallery" id="gallery" data-ghost="VIEWS" aria-labelledby="gallery-title">
     <div class="wrap">
       <div class="rail">
         <span class="rail__id"><i class="rail__mark" aria-hidden="true"></i>07 / Surfaces</span>
@@ -644,7 +670,7 @@
   </section>
 
   <!-- ───────────────────────────── DOWNLOAD ───────────────────────────── -->
-  <section class="section download" id="download" aria-labelledby="download-title">
+  <section class="section download" id="download" data-ghost="VITE" aria-labelledby="download-title">
     <div class="wrap">
       <div class="rail">
         <span class="rail__id"><i class="rail__mark" aria-hidden="true"></i>08 / Download</span>
@@ -698,7 +724,7 @@
             <svg class="icon" width="18" height="18" aria-hidden="true" focusable="false"><use href="#i-arrow-down"></use></svg>
           </a>
 
-          <p class="installer__hash"><span>SHA-256</span> F7ECCFFB4D798C38CD8F820220942D51718D0409F56D923ECE34F2D6FDAE8667</p>
+          <p class="installer__hash"><span>SHA-256</span> 2D56E049B33C36649501C5C97BCCE9F25F19379C358B80F7D277086FB4748F46</p>
 
           <div class="note note--compact">
             <span class="note__label">Before you install</span>

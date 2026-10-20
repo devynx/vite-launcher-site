@@ -3,14 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0a0b0a">
-  <title>Stats — Vite</title>
-  <meta name="description" content="What Vite players are playing: public playtime stats, top games, and recent sessions.">
+  <meta name="theme-color" content="#050806">
+  <title>Your stats — Vite</title>
+  <meta name="description" content="Your own Vite playtime in focus: the games you actually play, hours tracked, and patterns from your shared activity.">
   <link rel="icon" href="assets/vite-logo.png" type="image/png">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="account-pages.css">
   <link rel="stylesheet" href="account-nav.css">
   <link rel="stylesheet" href="stats.css">
+  <link rel="stylesheet" href="cinematic.css">
 </head>
 <body class="page-account page-stats">
   <header class="nav">
@@ -33,67 +34,90 @@
   <main class="account-page stats-page">
     <div class="account-page__inner">
       <div class="account-head stats-head">
-        <span class="account-eyebrow">Public activity · opt-in</span>
-        <h1 class="account-title">What Vite<br>is playing.</h1>
-        <p class="account-lede">Aggregate playtime from players who chose to share it. No library files, paths, or private profiles are ever exposed.</p>
+        <span class="account-eyebrow">Personal activity · opt-in</span>
+        <h1 class="account-title">Your hours.<br>In focus.</h1>
+        <p class="account-lede" id="stats-lede">Your own shared playtime, drawn from the desktop app. Nobody else's library, sessions, or activity is mixed in.</p>
       </div>
 
-      <section class="stats-kpis" aria-label="Stats overview">
-        <div class="stats-kpi">
-          <span class="stats-kpi__label">Players sharing</span>
-          <strong class="stats-kpi__value" id="stat-players">—</strong>
-          <span class="stats-kpi__hint">public profiles</span>
-        </div>
-        <div class="stats-kpi">
-          <span class="stats-kpi__label">Hours tracked</span>
-          <strong class="stats-kpi__value" id="stat-hours">—</strong>
-          <span class="stats-kpi__hint">across all shared games</span>
-        </div>
-        <div class="stats-kpi">
-          <span class="stats-kpi__label">Games tracked</span>
-          <strong class="stats-kpi__value" id="stat-games">—</strong>
-          <span class="stats-kpi__hint">unique titles</span>
-        </div>
-      </section>
-
-      <div class="stats-grid">
-        <article class="account-panel stats-chart-panel" aria-labelledby="stats-chart-title">
-          <header class="account-panel__head">
-            <h2 class="account-panel__title" id="stats-chart-title">Top games</h2>
-            <span class="account-badge">By shared hours</span>
-          </header>
-          <div class="account-panel__body">
-            <div class="stats-bars" id="stats-bars" role="list">
-              <p class="account-empty" role="status">Loading stats…</p>
-            </div>
-            <p class="stats-note">Games appear here only when at least one player shares playtime.</p>
-          </div>
-        </article>
-
-        <aside class="account-panel" aria-labelledby="stats-recent-title">
-          <header class="account-panel__head">
-            <h2 class="account-panel__title" id="stats-recent-title">Recently played</h2>
-            <span class="account-badge is-live">Live</span>
-          </header>
-          <div class="account-panel__body">
-            <ul class="stats-recent" id="stats-recent">
-              <li class="account-empty" role="status">Loading activity…</li>
-            </ul>
-          </div>
-        </aside>
-      </div>
-
-      <section class="stats-cta">
-        <div>
-          <span class="account-eyebrow">Your turn</span>
-          <h2 class="stats-cta__title">Put your hours on the board.</h2>
-          <p class="account-note">Open Vite, sign in, and turn on <strong>Share playtime on your profile</strong> in Settings. You can turn it off again at any time.</p>
-        </div>
+      <section class="stats-signin" id="stats-signed-out" hidden aria-labelledby="stats-signin-title">
+        <span class="account-eyebrow">Private by default</span>
+        <h2 class="stats-signin__title" id="stats-signin-title">Sign in to see your stats.</h2>
+        <p class="account-note">Your stats are tied to your Vite account. Sign in here or in the desktop app, then keep playtime sharing on in Settings to publish your hours to your own statistics.</p>
         <div class="account-actions">
-          <a class="btn-account btn-account--lime" href="index.html#download">Get Vite</a>
-          <a class="btn-account" href="portal.html">Open portal</a>
+          <a class="btn-account btn-account--lime" href="portal.html">Open the portal</a>
+          <a class="btn-account" href="settings.html">Account settings</a>
         </div>
       </section>
+
+      <div id="stats-dashboard" hidden>
+        <section class="stats-kpis" aria-label="Your totals">
+          <div class="stats-kpi">
+            <span class="stats-kpi__label">Hours tracked</span>
+            <strong class="stats-kpi__value" id="stat-hours">—</strong>
+            <span class="stats-kpi__hint">shared from the launcher</span>
+          </div>
+          <div class="stats-kpi">
+            <span class="stats-kpi__label">Games tracked</span>
+            <strong class="stats-kpi__value" id="stat-games">—</strong>
+            <span class="stats-kpi__hint">titles with playtime</span>
+          </div>
+          <div class="stats-kpi">
+            <span class="stats-kpi__label">Top game</span>
+            <strong class="stats-kpi__value stats-kpi__value--text" id="stat-top">—</strong>
+            <span class="stats-kpi__hint" id="stat-top-share">your heaviest rotation</span>
+          </div>
+          <div class="stats-kpi">
+            <span class="stats-kpi__label">Last activity</span>
+            <strong class="stats-kpi__value stats-kpi__value--text" id="stat-last">—</strong>
+            <span class="stats-kpi__hint" id="stat-last-hint">most recent shared game</span>
+          </div>
+        </section>
+
+        <div class="stats-grid">
+          <article class="account-panel stats-chart-panel" aria-labelledby="stats-chart-title">
+            <header class="account-panel__head">
+              <h2 class="account-panel__title" id="stats-chart-title">Your games</h2>
+              <span class="account-badge">By shared hours</span>
+            </header>
+            <div class="account-panel__body">
+              <div class="stats-bars" id="stats-bars" role="list">
+                <p class="account-empty" role="status">Loading your stats…</p>
+              </div>
+              <p class="stats-note" id="stats-note">Hours come from the last sync in the desktop app. Only aggregate game names, sources, and hours are stored; library paths and session files stay on your PC.</p>
+            </div>
+          </article>
+
+          <aside class="account-panel stats-insights-panel" aria-labelledby="stats-insights-title">
+            <header class="account-panel__head">
+              <h2 class="account-panel__title" id="stats-insights-title">Insights</h2>
+              <span class="account-badge is-live">Your pattern</span>
+            </header>
+            <div class="account-panel__body">
+              <div class="stats-share-ring" id="stats-share-ring" aria-hidden="true">
+                <div class="stats-share-ring__inner">
+                  <strong id="stats-share-value">—</strong>
+                  <span>top game</span>
+                </div>
+              </div>
+              <ul class="stats-insights" id="stats-insights">
+                <li class="account-empty" role="status">Reading your playtime…</li>
+              </ul>
+            </div>
+          </aside>
+        </div>
+
+        <section class="stats-cta">
+          <div>
+            <span class="account-eyebrow">Keep it current</span>
+            <h2 class="stats-cta__title">Sync today, see today.</h2>
+            <p class="account-note">Open Vite with playtime sharing on and the launcher syncs every ten minutes. You can change visibility at any time in Settings.</p>
+          </div>
+          <div class="account-actions">
+            <a class="btn-account" href="settings.html">Sharing settings</a>
+            <a class="btn-account btn-account--lime" href="profile.html">Public profile</a>
+          </div>
+        </section>
+      </div>
     </div>
   </main>
 

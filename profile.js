@@ -68,6 +68,28 @@
     var bio = element("p", "profile-bio" + (profile.bio ? "" : " is-empty"), profile.bio || "This player has not written a bio yet.");
     body.appendChild(bio);
 
+    var games = Array.isArray(profile.games) ? profile.games : [];
+    if (profile.activity_public && games.length) {
+      var totalSeconds = games.reduce(function (sum, game) {
+        return sum + Number(game.seconds || 0);
+      }, 0);
+      var topGame = games.slice().sort(function (a, b) {
+        return Number(b.seconds || 0) - Number(a.seconds || 0);
+      })[0];
+      var stats = element("div", "profile-stats");
+      [
+        ["Hours shared", (totalSeconds / 3600).toFixed(1).replace(/\.0$/, "") + " h"],
+        ["Games tracked", String(games.length)],
+        ["Top game", topGame ? (topGame.name || "Unknown game") : "—"]
+      ].forEach(function (row) {
+        var cell = element("div", "profile-stat");
+        cell.appendChild(element("span", "profile-stat__k", row[0]));
+        cell.appendChild(element("strong", "profile-stat__v", row[1]));
+        stats.appendChild(cell);
+      });
+      body.appendChild(stats);
+    }
+
     var meta = element("div", "account-meta");
     var rows = [
       ["Friends", String(profile.friend_count || 0)],
@@ -82,7 +104,6 @@
     });
     body.appendChild(meta);
 
-    var games = Array.isArray(profile.games) ? profile.games : [];
     if (profile.activity_public) {
       var panel = element("div", "profile-games");
       panel.appendChild(element("h3", "profile-games__title", "Games"));
