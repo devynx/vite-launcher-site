@@ -4,10 +4,10 @@ The site is deployed as a static site with GitHub Pages from a public repository
 
 - **Public URL:** https://devynx.github.io/vite-launcher-site/
 - **Repository:** https://github.com/devynx/vite-launcher-site (public, branch `main`)
-- **Deployed:** 2026-10-19 (commit `259d68f`)
+- **Deployed:** 2026-10-20 (commit `e7e7a35`)
 - **Pages configuration:** source `main` / repository root, build type `legacy`, HTTPS enforced
 - **Account service:** `https://iljiovhwkrtfuvmhcfhn.supabase.co/functions/v1/vite-auth` (Supabase `vite-launcher`, `eu-north-1`)
-- **Profile pages:** `profile.html?u=<username>` (public when the player allows it) and `settings.html` (requires sign-in)
+- **Pages:** `portal.html` (chat/friends/settings), `stats.html` (public opt-in activity), `profile.html?u=<username>` (public when allowed), `settings.html` (requires sign-in)
 - **Presence:** the desktop app publishes a 90-second game heartbeat; signed-in friends can see it and use the friends sidebar's Join button.
 
 ## HTTP checks
@@ -21,7 +21,11 @@ The site is deployed as a static site with GitHub Pages from a public repository
 | `assets/overlay-fullscreen.png` | 200 | `image/png` |
 | `assets/vite-logo.png` | 200 | `image/png` |
 | `assets/fonts/anton-latin.woff2` | 200 | `font/woff2` |
-| `downloads/Vite_0.1.0_x64-setup.exe` | 200 | `application/octet-stream` |
+| `/portal.html` | 200 | `text/html; charset=utf-8` |
+| `/stats.html` | 200 | `text/html; charset=utf-8` |
+| `/profile.html?u=praise` | 200 | `text/html; charset=utf-8` |
+| `/settings.html` | 200 | `text/html; charset=utf-8` |
+| `/downloads/Vite_0.1.0_x64-setup.exe` | 200 | `application/octet-stream` |
 | `DEPLOY.md` | 200 | `text/plain; charset=utf-8` |
 
 The root document title is `Vite — Local-first game launcher for Windows`.
@@ -42,9 +46,10 @@ The site shares the desktop app's hosted account service:
 
 - Create account: username + display name + password; no email.
 - Sign in / sign out and add/remove friends by 8-character code.
-- Public profile pages, account settings, bio, profile visibility, and live game presence.
+- Portal chat between mutual friends; unread counts and last-message previews.
+- Public profile pages, account settings, bio, profile visibility, live game presence, and opt-in aggregate activity stats.
 - The same account works in the desktop app and on the website.
-- The account service stores username, display name, a PBKDF2-SHA256 password hash, friend code, and mutual friend ids. The library is never uploaded.
+- The account service stores username, display name, a PBKDF2-SHA256 password hash, friend code, mutual friend ids, messages, and optional aggregate game hours. The library is never uploaded.
 
 ## Browser check
 
