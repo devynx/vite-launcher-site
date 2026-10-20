@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0a0b0a">
+  <title>Stats — Vite</title>
+  <meta name="description" content="What Vite players are playing: public playtime stats, top games, and recent sessions.">
+  <link rel="icon" href="assets/vite-logo.png" type="image/png">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="account-pages.css">
+  <link rel="stylesheet" href="account-nav.css">
+  <link rel="stylesheet" href="stats.css">
+</head>
+<body class="page-account page-stats">
+  <header class="nav">
+    <div class="nav__inner">
+      <a class="brand" href="index.html">
+        <img src="assets/vite-logo.png" alt="" width="28" height="28">
+        <span>VITE</span>
+      </a>
+      <nav class="nav__links" aria-label="Primary">
+        <a href="index.html#features">Features</a>
+        <a href="index.html#overlay">Overlay</a>
+        <a class="is-active" href="stats.html">Stats</a>
+        <a href="index.html#accounts">Accounts</a>
+        <a href="index.html#download">Download</a>
+      </nav>
+      <div class="account-nav" data-account-nav></div>
+    </div>
+  </header>
+
+  <main class="account-page stats-page">
+    <div class="account-page__inner">
+      <div class="account-head stats-head">
+        <span class="account-eyebrow">Public activity · opt-in</span>
+        <h1 class="account-title">What Vite<br>is playing.</h1>
+        <p class="account-lede">Aggregate playtime from players who chose to share it. No library files, paths, or private profiles are ever exposed.</p>
+      </div>
+
+      <section class="stats-kpis" aria-label="Stats overview">
+        <div class="stats-kpi">
+          <span class="stats-kpi__label">Players sharing</span>
+          <strong class="stats-kpi__value" id="stat-players">—</strong>
+          <span class="stats-kpi__hint">public profiles</span>
+        </div>
+        <div class="stats-kpi">
+          <span class="stats-kpi__label">Hours tracked</span>
+          <strong class="stats-kpi__value" id="stat-hours">—</strong>
+          <span class="stats-kpi__hint">across all shared games</span>
+        </div>
+        <div class="stats-kpi">
+          <span class="stats-kpi__label">Games tracked</span>
+          <strong class="stats-kpi__value" id="stat-games">—</strong>
+          <span class="stats-kpi__hint">unique titles</span>
+        </div>
+      </section>
+
+      <div class="stats-grid">
+        <article class="account-panel stats-chart-panel" aria-labelledby="stats-chart-title">
+          <header class="account-panel__head">
+            <h2 class="account-panel__title" id="stats-chart-title">Top games</h2>
+            <span class="account-badge">By shared hours</span>
+          </header>
+          <div class="account-panel__body">
+            <div class="stats-bars" id="stats-bars" role="list">
+              <p class="account-empty" role="status">Loading stats…</p>
+            </div>
+            <p class="stats-note">Games appear here only when at least one player shares playtime.</p>
+          </div>
+        </article>
+
+        <aside class="account-panel" aria-labelledby="stats-recent-title">
+          <header class="account-panel__head">
+            <h2 class="account-panel__title" id="stats-recent-title">Recently played</h2>
+            <span class="account-badge is-live">Live</span>
+          </header>
+          <div class="account-panel__body">
+            <ul class="stats-recent" id="stats-recent">
+              <li class="account-empty" role="status">Loading activity…</li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+
+      <section class="stats-cta">
+        <div>
+          <span class="account-eyebrow">Your turn</span>
+          <h2 class="stats-cta__title">Put your hours on the board.</h2>
+          <p class="account-note">Open Vite, sign in, and turn on <strong>Share playtime on your profile</strong> in Settings. You can turn it off again at any time.</p>
+        </div>
+        <div class="account-actions">
+          <a class="btn-account btn-account--lime" href="index.html#download">Get Vite</a>
+          <a class="btn-account" href="portal.html">Open portal</a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="account-footer">
+    <span>Vite · 0.1.0</span>
+    <span><a href="index.html">Home</a> · <a href="portal.html">Portal</a> · <a href="settings.html">Settings</a></span>
+  </footer>
+
+  <script src="account-api.js" defer></script>
+  <script src="account-nav.js" defer></script>
+  <script src="stats.js" defer></script>
+</body>
+</html>

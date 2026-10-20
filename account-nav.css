@@ -107,3 +107,10 @@
   .account-chip__name { max-width: 60px; }
   .account-chip__chevron { display: none; }
 }
+
+@media (max-width: 560px) {
+  .nav__actions > .btn { display: none; }
+  .account-chip__name,
+  .account-chip__chevron { display: none; }
+  .account-chip { padding: 5px; }
+}

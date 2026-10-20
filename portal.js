@@ -418,6 +418,8 @@
           '<label class="portal-field"><span>Bio</span><textarea id="portal-setting-bio" maxlength="160" rows="3" placeholder="A line about you">' + esc(account.bio || "") + "</textarea>" +
             '<small>Up to 160 characters. Shown on your public profile.</small></label>' +
           '<label class="portal-check"><input type="checkbox" id="portal-setting-public"' + (account.profile_public ? " checked" : "") + "> <span>Show my profile at " + esc("profile.html?u=" + account.username) + "</span></label>" +
+          '<label class="portal-check"><input type="checkbox" id="portal-setting-activity"' + (account.activity_public ? " checked" : "") + "> <span>Share aggregate playtime on my profile and the public stats page</span></label>" +
+          '<p class="portal-muted">Playtime sharing uploads game names, sources, and hours from the desktop app. Your library files and paths stay on your PC.</p>' +
           '<p class="portal-form-error" id="portal-settings-error" role="alert" hidden></p>' +
           '<p class="portal-form-ok" id="portal-settings-ok" role="status" hidden>Profile saved.</p>' +
           '<button class="portal-primary" type="submit">Save changes</button></form></article>' +
@@ -441,7 +443,8 @@
       var result = await A.api("account-settings-update", {
         display_name: $("portal-setting-name").value.trim(),
         bio: $("portal-setting-bio").value.trim(),
-        profile_public: $("portal-setting-public").checked
+        profile_public: $("portal-setting-public").checked,
+        activity_public: $("portal-setting-activity").checked
       }, true);
       if (result.account) state.account = result.account;
       else await refreshAccount();

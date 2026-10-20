@@ -82,6 +82,31 @@
     });
     body.appendChild(meta);
 
+    var games = Array.isArray(profile.games) ? profile.games : [];
+    if (profile.activity_public) {
+      var panel = element("div", "profile-games");
+      panel.appendChild(element("h3", "profile-games__title", "Games"));
+      if (!games.length) {
+        panel.appendChild(element("p", "account-note", "Playtime sharing is on, but no games have synced yet. Open Vite with a game once to publish hours."));
+      } else {
+        var list = element("ul", "profile-games__list");
+        games.forEach(function (game) {
+          var item = element("li", "profile-games__item");
+          item.appendChild(element("span", "profile-games__name", game.name || "Unknown game"));
+          var metaLine = element("span", "profile-games__meta",
+            (game.source === "epic" ? "Epic" : game.source === "gog" ? "GOG" : "Steam") +
+            " · " + (Number(game.seconds || 0) / 3600).toFixed(1).replace(/\.0$/, "") + " h");
+          item.appendChild(metaLine);
+          list.appendChild(item);
+        });
+        panel.appendChild(list);
+      }
+      body.appendChild(panel);
+    } else {
+      body.appendChild(element("p", "account-note profile-games__off",
+        "This player has not shared playtime."));
+    }
+
     var actions = element("div", "account-actions");
     if (self) {
       var settings = element("a", "btn-account btn-account--lime", "Edit profile");
